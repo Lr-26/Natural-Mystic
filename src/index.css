@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Paleta Arena del Desierto */
+  --color-desert-1: #9d447b;
+  --color-desert-2: #9d4454;
+  --color-desert-3: #9d6644;
+  --color-desert-4: #9d9244;
+  --color-desert-5: #809d44;
+
+  /* Semantic Mappings */
+  --color-cosmetic-dark: #9d447b;
+  /* Primary: Morado Desierto (Reemplaza al café oscuro) */
+  --color-cosmetic-gold: #9d6644;
+  /* Accent: Tierra (Reemplaza al dorado) */
+  --color-absolute-black: #000000;
+  /* Mantener Negro Absoluto para textos principales */
+
+  /* New Semantic Tokens */
+  --color-desert-primary: #9d447b;
+  --color-desert-secondary: #9d4454;
+  --color-desert-accent: #9d6644;
+  --color-desert-bg: #9d9244;
+  --color-desert-text: #809d44;
+
+  /* Restored Utility Colors */
+  --color-parchment: #FDF5E6;
+
+  /* Instagram & Luxury Accents */
+  --color-insta-pink: #E1306C;
+  --color-insta-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+
+  --font-cinzel: "Cinzel", serif;
+  --font-montserrat: "Montserrat", sans-serif;
+}
+
+:root {
+  font-family: 'Montserrat', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: theme('colors.white');
+  /* Global default clean slate or use desert-bg? User asked for product section white, let's keep global standard */
+  /* Applying user's raw CSS variables for reference if needed by external scripts, though Tailwind handles it via @theme */
+  --primary: #9d447b;
+  --secondary: #9d4454;
+  --accent: #9d6644;
+  --background: #9d9244;
+  --text: #809d44;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Cinzel', serif;
+  /* color: theme('colors.absolute-black'); - Removed to allow utility override */
+}
+
+p,
+span,
+a,
+button {
+  /* color: theme('colors.absolute-black'); - Removed to allow utility override */
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.premium-shadow {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+}
