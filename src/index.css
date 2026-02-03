@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Mystic Rose Palette - Goddess & Alchemy */
+  --color-desert-primary: #592E3B;
+  /* Deep Burgundy - Readable Text */
+  --color-desert-secondary: #9E5A6D;
+  /* Deep Mauve */
+  --color-desert-accent: #D48C9D;
+  /* Dusty Rose - Accents */
+  --color-desert-text: #F9F2F4;
+  /* Soft Rose White */
+  --color-desert-bg: #1A1014;
+  /* Deep Rose Black */
+
+  /* Custom Breakpoints */
+  --breakpoint-xs: 390px;
+  --breakpoint-tablet: 700px;
+  --breakpoint-laptop: 980px;
+  --breakpoint-desktop: 1029px;
+  --breakpoint-pc: 1280px;
+
+  --color-mystic-dark: #120A0C;
+  --color-mystic-gold: #D4AF37;
+  /* Keeping classic gold for some details */
+
+  --font-cinzel: "Cinzel", serif;
+  --font-montserrat: "Montserrat", sans-serif;
+}
+
+:root {
+  font-family: 'Montserrat', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: theme('colors.desert-bg');
+  color: theme('colors.desert-text');
+
+  /* Mystic Theme Defaults */
+  --primary: #D48C9D;
+  --secondary: #9E5A6D;
+  --accent: #E0BFB8;
+  --background: #1A1014;
+  --text: #F9F2F4;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Cinzel', serif;
+  /* color: theme('colors.absolute-black'); - Removed to allow utility override */
+}
+
+p,
+span,
+a,
+button {
+  /* color: theme('colors.absolute-black'); - Removed to allow utility override */
+}
+
+/* GLOBAL INPUT FIX: Ensure text is always visible */
+input,
+textarea,
+select {
+  color: #1A1A1A !important;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E5E5;
+}
+
+/* Allow overrides for specifically styled dark inputs if needed */
+.dark-input {
+  color: #F9F2F4 !important;
+  background-color: #1A1014;
+  border: 1px solid #D48C9D;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.premium-shadow {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+}
