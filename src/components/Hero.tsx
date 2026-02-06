@@ -6,8 +6,8 @@ const Hero = () => {
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
                 <img
-                    src="/images/hero-mystic.jpg"
-                    alt="Bosque Místico y Niebla"
+                    src="/images/hero-flower.jpg"
+                    alt="Flor de Loto Mística"
                     className="w-full h-full object-cover opacity-80"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-desert-bg" /> {/* Deep mystic gradient */}
