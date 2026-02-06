@@ -134,44 +134,52 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-desert-primary border-t border-desert-accent/10"
+                        initial={{ opacity: 0, x: '100%' }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: '100%' }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed inset-0 z-50 bg-desert-bg/95 backdrop-blur-xl md:hidden flex flex-col justify-center"
                     >
-                        <div className="px-4 pt-4 pb-8 space-y-4">
-                            <a href="#historia" onClick={() => setIsMenuOpen(false)} className="block text-parchment hover:text-white font-montserrat uppercase tracking-widest text-sm py-2">Historia</a>
-                            <a href="#ingredientes" onClick={() => setIsMenuOpen(false)} className="block text-parchment hover:text-white font-montserrat uppercase tracking-widest text-sm py-2">Ingredientes</a>
-                            <a href="#productos" onClick={() => setIsMenuOpen(false)} className="block text-parchment hover:text-white font-montserrat uppercase tracking-widest text-sm py-2">Colección</a>
-                            <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="block text-parchment hover:text-white font-montserrat uppercase tracking-widest text-sm py-2">Contacto</a>
+                        <button
+                            onClick={() => setIsMenuOpen(false)}
+                            className="absolute top-6 right-6 p-2 text-desert-accent hover:text-white transition-colors"
+                        >
+                            <X size={32} />
+                        </button>
 
-                            <div className="pt-4 border-t border-white/10">
+                        <div className="px-8 py-8 space-y-6 text-center">
+                            <a href="#historia" onClick={() => setIsMenuOpen(false)} className="block text-2xl font-cinzel text-parchment hover:text-desert-accent transition-colors">Historia</a>
+                            <a href="#ingredientes" onClick={() => setIsMenuOpen(false)} className="block text-2xl font-cinzel text-parchment hover:text-desert-accent transition-colors">Ingredientes</a>
+                            <a href="#productos" onClick={() => setIsMenuOpen(false)} className="block text-2xl font-cinzel text-parchment hover:text-desert-accent transition-colors">Colección</a>
+                            <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="block text-2xl font-cinzel text-parchment hover:text-desert-accent transition-colors">Contacto</a>
+
+                            <div className="pt-8 mt-8 border-t border-desert-accent/20 flex flex-col items-center gap-4">
                                 {user ? (
                                     <>
+                                        <div className="mb-2">
+                                            <p className="text-[10px] text-desert-accent uppercase tracking-widest font-bold">Sesión activa:</p>
+                                            <p className="text-white text-sm font-montserrat truncate">{user.email}</p>
+                                        </div>
                                         {isAdmin && (
-                                            <>
-                                                <div className="mb-4">
-                                                    <p className="text-[10px] text-desert-accent uppercase tracking-widest font-bold">Sesión activa:</p>
-                                                    <p className="text-white text-sm font-montserrat truncate">{user.email}</p>
-                                                </div>
-                                                <a href="#admin" onClick={() => setIsMenuOpen(false)} className="block text-desert-accent hover:text-white font-cinzel uppercase tracking-widest text-sm py-2 font-bold mb-4">Admin Panel</a>
-                                            </>
+                                            <Link to="/admin" onClick={() => setIsMenuOpen(false)} className="px-8 py-3 bg-desert-accent text-white font-cinzel uppercase tracking-widest text-sm font-bold w-full max-w-xs">
+                                                Admin Panel
+                                            </Link>
                                         )}
                                         <button
                                             onClick={handleLogout}
-                                            className="w-full py-3 bg-red-600/20 text-red-100 border border-red-600/30 font-montserrat uppercase tracking-widest text-xs font-bold"
+                                            className="px-8 py-3 border border-red-500/50 text-red-400 font-montserrat uppercase tracking-widest text-xs font-bold w-full max-w-xs hover:bg-red-500/10 transition-colors"
                                         >
                                             Cerrar Sesión
                                         </button>
                                     </>
                                 ) : (
-                                    <a
-                                        href="#admin"
+                                    <Link
+                                        to="/login"
                                         onClick={() => setIsMenuOpen(false)}
-                                        className="block w-full text-center py-3 bg-desert-accent text-white font-cinzel uppercase tracking-widest text-sm font-bold shadow-lg"
+                                        className="px-8 py-4 bg-desert-primary text-white font-cinzel uppercase tracking-widest text-lg font-bold shadow-lg w-full max-w-xs hover:bg-desert-accent transition-colors"
                                     >
-                                        Entrar / Registrarme
-                                    </a>
+                                        Iniciar Sesión
+                                    </Link>
                                 )}
                             </div>
                         </div>

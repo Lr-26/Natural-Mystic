@@ -184,11 +184,11 @@ const Checkout = () => {
                     <ArrowLeft size={20} /> {step === 1 ? 'Volver' : 'Atrás'}
                 </button>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="flex flex-col-reverse lg:grid lg:grid-cols-3 gap-8">
                     {/* Form Section */}
                     <div className="lg:col-span-2">
-                        <div className="bg-white p-8 rounded-sm shadow-lg border border-desert-accent/10">
-                            <h2 className="font-cinzel text-2xl text-desert-primary mb-6">
+                        <div className="bg-white p-6 md:p-8 rounded-sm shadow-lg border border-desert-accent/10">
+                            <h2 className="font-cinzel text-xl md:text-2xl text-desert-primary mb-6">
                                 {step === 1 ? 'Información de Envío' : 'Método de Pago'}
                             </h2>
 
@@ -203,7 +203,7 @@ const Checkout = () => {
                                                     required
                                                     value={formData.fullName}
                                                     onChange={e => setFormData({ ...formData, fullName: e.target.value })}
-                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white"
+                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white rounded-sm"
                                                 />
                                             </div>
                                             <div>
@@ -213,7 +213,7 @@ const Checkout = () => {
                                                     required
                                                     value={formData.email}
                                                     onChange={e => setFormData({ ...formData, email: e.target.value })}
-                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white"
+                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white rounded-sm"
                                                 />
                                             </div>
                                         </div>
@@ -225,7 +225,7 @@ const Checkout = () => {
                                                 required
                                                 value={formData.phone}
                                                 onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                                                className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white"
+                                                className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white rounded-sm"
                                             />
                                         </div>
 
@@ -236,7 +236,7 @@ const Checkout = () => {
                                                 required
                                                 value={formData.address}
                                                 onChange={e => setFormData({ ...formData, address: e.target.value })}
-                                                className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white"
+                                                className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white rounded-sm"
                                             />
                                         </div>
 
@@ -248,7 +248,7 @@ const Checkout = () => {
                                                     required
                                                     value={formData.city}
                                                     onChange={e => setFormData({ ...formData, city: e.target.value })}
-                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white"
+                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white rounded-sm"
                                                 />
                                             </div>
                                             <div>
@@ -258,7 +258,7 @@ const Checkout = () => {
                                                     required
                                                     value={formData.province}
                                                     onChange={e => setFormData({ ...formData, province: e.target.value })}
-                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white"
+                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white rounded-sm"
                                                     placeholder="Ej: Buenos Aires"
                                                 />
                                             </div>
@@ -269,7 +269,7 @@ const Checkout = () => {
                                                     required
                                                     value={formData.postalCode}
                                                     onChange={e => setFormData({ ...formData, postalCode: e.target.value })}
-                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white"
+                                                    className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white rounded-sm"
                                                 />
                                             </div>
                                         </div>
@@ -280,7 +280,7 @@ const Checkout = () => {
                                                 rows={3}
                                                 value={formData.notes}
                                                 onChange={e => setFormData({ ...formData, notes: e.target.value })}
-                                                className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white"
+                                                className="w-full p-3 border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 bg-white rounded-sm"
                                                 placeholder="Instrucciones especiales de entrega..."
                                             />
                                         </div>
@@ -304,11 +304,11 @@ const Checkout = () => {
                                                         value={method.id}
                                                         checked={formData.paymentMethod === method.id}
                                                         onChange={e => setFormData({ ...formData, paymentMethod: e.target.value as any })}
-                                                        className="w-5 h-5"
+                                                        className="w-5 h-5 accent-desert-primary"
                                                     />
-                                                    <method.icon className="text-desert-primary" size={32} />
+                                                    <method.icon className="text-desert-primary shrink-0" size={32} />
                                                     <div className="flex-1">
-                                                        <h3 className="font-cinzel font-bold text-desert-primary">{method.title}</h3>
+                                                        <h3 className="font-cinzel font-bold text-desert-primary text-sm md:text-base">{method.title}</h3>
                                                         <p className="text-xs text-desert-text">{method.desc}</p>
                                                     </div>
                                                 </label>
@@ -328,7 +328,7 @@ const Checkout = () => {
                                                                     maxLength={19}
                                                                     value={formData.cardNumber}
                                                                     onChange={e => setFormData({ ...formData, cardNumber: e.target.value })}
-                                                                    className="w-full p-3 bg-white border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900"
+                                                                    className="w-full p-3 bg-white border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 rounded-sm"
                                                                     required={formData.paymentMethod === 'card'}
                                                                 />
                                                             </div>
@@ -339,7 +339,7 @@ const Checkout = () => {
                                                                     placeholder="COMO APARECE EN LA TARJETA"
                                                                     value={formData.cardName}
                                                                     onChange={e => setFormData({ ...formData, cardName: e.target.value })}
-                                                                    className="w-full p-3 bg-white border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900"
+                                                                    className="w-full p-3 bg-white border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 rounded-sm"
                                                                     required={formData.paymentMethod === 'card'}
                                                                 />
                                                             </div>
@@ -352,7 +352,7 @@ const Checkout = () => {
                                                                         maxLength={5}
                                                                         value={formData.cardExpiry}
                                                                         onChange={e => setFormData({ ...formData, cardExpiry: e.target.value })}
-                                                                        className="w-full p-3 bg-white border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900"
+                                                                        className="w-full p-3 bg-white border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 rounded-sm"
                                                                         required={formData.paymentMethod === 'card'}
                                                                     />
                                                                 </div>
@@ -364,7 +364,7 @@ const Checkout = () => {
                                                                         maxLength={4}
                                                                         value={formData.cardCvc}
                                                                         onChange={e => setFormData({ ...formData, cardCvc: e.target.value })}
-                                                                        className="w-full p-3 bg-white border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900"
+                                                                        className="w-full p-3 bg-white border border-desert-accent/20 focus:outline-none focus:border-desert-primary text-gray-900 rounded-sm"
                                                                         required={formData.paymentMethod === 'card'}
                                                                     />
                                                                 </div>
@@ -380,7 +380,7 @@ const Checkout = () => {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full mt-8 py-4 bg-desert-primary text-white font-cinzel font-bold tracking-widest uppercase hover:bg-desert-accent transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                                    className="w-full mt-8 py-4 bg-desert-primary text-white font-cinzel font-bold tracking-widest uppercase hover:bg-desert-accent transition-all flex items-center justify-center gap-2 disabled:opacity-50 rounded-sm shadow-md"
                                 >
                                     {loading ? (
                                         <><Loader className="animate-spin" size={20} /> {formData.paymentMethod === 'mercadopago' ? 'Redirigiendo a MP...' : 'Procesando...'}</>
@@ -396,27 +396,36 @@ const Checkout = () => {
 
                     {/* Order Summary */}
                     <div className="lg:col-span-1">
-                        <div className="bg-white p-6 rounded-sm shadow-lg border border-desert-accent/10 sticky top-24">
+                        <div className="bg-white p-6 rounded-sm shadow-lg border border-desert-accent/10 lg:sticky lg:top-24">
                             <h3 className="font-cinzel text-xl text-desert-primary mb-4">Resumen del Pedido</h3>
                             <div className="space-y-4 mb-6">
-                                {items.map(item => (
-                                    <div key={item._id || item.id} className="flex gap-3 group relative">
-                                        <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-sm" />
-                                        <div className="flex-1">
-                                            <h4 className="font-cinzel text-sm text-desert-primary pr-6">{item.name}</h4>
-                                            <p className="text-xs text-desert-text">Cantidad: {item.quantity}</p>
-                                            <p className="text-sm font-bold text-desert-accent">${(item.price * item.quantity).toFixed(2)}</p>
+                                {items.map(item => {
+                                    const categoryImages: Record<string, string> = {
+                                        'Velas': '/images/cat-candles.jpg',
+                                        'Sahumerios': '/images/cat-incense.jpg',
+                                        'Jabones': '/images/cat-soaps.jpg',
+                                        'Cremas': '/images/cat-creams.jpg'
+                                    };
+                                    const imageSrc = (item as any).category ? (categoryImages[(item as any).category] || item.image) : item.image;
+
+                                    return (
+                                        <div key={item._id || item.id} className="flex gap-3 group relative">
+                                            <img src={imageSrc} alt={item.name} className="w-16 h-16 object-cover rounded-sm" />
+                                            <div className="flex-1">
+                                                <h4 className="font-cinzel text-sm text-desert-primary pr-6">{item.name}</h4>
+                                                <p className="text-xs text-desert-text">Cantidad: {item.quantity}</p>
+                                                <p className="text-sm font-bold text-desert-accent">${(item.price * item.quantity).toFixed(2)}</p>
+                                            </div>
+                                            <button
+                                                onClick={() => removeFromCart(item.id || item._id || '')}
+                                                className="absolute top-0 right-0 text-desert-text/50 hover:text-red-500 transition-colors p-1"
+                                                title="Eliminar producto"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
                                         </div>
-                                        <button
-                                            onClick={() => removeFromCart(item.id || item._id || '')}
-                                            className="absolute top-0 right-0 text-desert-text/50 hover:text-red-500 transition-colors p-1"
-                                            title="Eliminar producto"
-                                        >
-                                            <Trash2 size={16} />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
+                                    );
+                                })}</div>
                             <div className="border-t border-desert-accent/20 pt-4">
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="font-montserrat text-sm text-desert-text">Subtotal</span>

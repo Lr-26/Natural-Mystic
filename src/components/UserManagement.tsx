@@ -22,7 +22,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ token }) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('http://localhost:3000/auth/users', {
+            const response = await axios.get('http://localhost:3001/auth/users', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUsers(response.data);
@@ -46,7 +46,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ token }) => {
 
         try {
             await axios.patch(
-                `http://localhost:3000/auth/users/${userId}/role`,
+                `http://localhost:3001/auth/users/${userId}/role`,
                 { role: newRole },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -60,7 +60,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ token }) => {
         if (!window.confirm(`¿Eliminar usuario ${email}?`)) return;
 
         try {
-            await axios.delete(`http://localhost:3000/auth/users/${userId}`, {
+            await axios.delete(`http://localhost:3001/auth/users/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchUsers();

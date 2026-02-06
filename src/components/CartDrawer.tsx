@@ -49,50 +49,60 @@ const CartDrawer = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
                                     </p>
                                 </div>
                             ) : (
-                                cart.map((item) => (
-                                    <motion.div
-                                        layout
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -20 }}
-                                        key={item.id}
-                                        className="flex gap-4 bg-desert-bg/5 p-4 rounded-sm border border-desert-accent/10"
-                                    >
-                                        <img
-                                            src={item.image}
-                                            alt={item.name}
-                                            className="w-20 h-20 object-cover rounded-sm"
-                                        />
-                                        <div className="flex-1">
-                                            <h3 className="font-cinzel text-desert-primary font-bold">{item.name}</h3>
-                                            <p className="font-montserrat text-desert-accent font-medium">${typeof item.price === 'number' ? item.price.toFixed(2) : '0.00'}</p>
-                                        </div>
+                                cart.map((item) => {
+                                    const categoryImages: Record<string, string> = {
+                                        'Velas': '/images/cat-candles.jpg',
+                                        'Sahumerios': '/images/cat-incense.jpg',
+                                        'Jabones': '/images/cat-soaps.jpg',
+                                        'Cremas': '/images/cat-creams.jpg'
+                                    };
+                                    const imageSrc = categoryImages[item.category] || item.image;
 
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex items-center border border-desert-accent/30 rounded-sm">
+                                    return (
+                                        <motion.div
+                                            layout
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            key={item.id}
+                                            className="flex gap-4 bg-desert-bg/5 p-4 rounded-sm border border-desert-accent/10"
+                                        >
+                                            <img
+                                                src={imageSrc}
+                                                alt={item.name}
+                                                className="w-20 h-20 object-cover rounded-sm"
+                                            />
+                                            <div className="flex-1">
+                                                <h3 className="font-cinzel text-desert-primary font-bold">{item.name}</h3>
+                                                <p className="font-montserrat text-desert-accent font-medium">${typeof item.price === 'number' ? item.price.toFixed(2) : '0.00'}</p>
+                                            </div>
+
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex items-center border border-desert-accent/30 rounded-sm">
+                                                    <button
+                                                        onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
+                                                        className="p-1 hover:text-desert-accent transition-colors"
+                                                    >
+                                                        <Minus size={14} />
+                                                    </button>
+                                                    <span className="w-8 text-center font-montserrat text-sm font-bold text-desert-primary">{item.quantity}</span>
+                                                    <button
+                                                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                        className="p-1 hover:text-desert-accent transition-colors"
+                                                    >
+                                                        <Plus size={14} />
+                                                    </button>
+                                                </div>
                                                 <button
-                                                    onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
-                                                    className="p-1 hover:text-desert-accent transition-colors"
+                                                    onClick={() => removeFromCart(item.id)}
+                                                    className="text-red-400 hover:text-red-600 transition-colors"
                                                 >
-                                                    <Minus size={14} />
-                                                </button>
-                                                <span className="w-8 text-center font-montserrat text-sm font-bold text-desert-primary">{item.quantity}</span>
-                                                <button
-                                                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                    className="p-1 hover:text-desert-accent transition-colors"
-                                                >
-                                                    <Plus size={14} />
+                                                    <Trash2 size={18} />
                                                 </button>
                                             </div>
-                                            <button
-                                                onClick={() => removeFromCart(item.id)}
-                                                className="text-red-400 hover:text-red-600 transition-colors"
-                                            >
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </motion.div>
-                                ))
+                                        </motion.div>
+                                    );
+                                })
                             )}
                         </div>
 

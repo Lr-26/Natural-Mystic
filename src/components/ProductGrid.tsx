@@ -8,28 +8,28 @@ const categories = [
     {
         id: 'velas',
         name: 'Velas de Soja',
-        image: 'https://images.unsplash.com/photo-1602166668383-3c990a42484a?q=80&w=800&auto=format&fit=crop', // Dark Candle Close-up (Reliable)
+        image: '/images/cat-candles.jpg', // Dark Candle Close-up (Reliable)
         filter: 'velas',
         description: 'Luz natural y aromas sagrados'
     },
     {
         id: 'sahumerios',
         name: 'Sahumerios',
-        image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop', // Incense stick & smoke (Reliable)
+        image: '/images/cat-incense.jpg', // Incense stick & smoke (Reliable)
         filter: 'sahumerios',
         description: 'Limpieza y elevación energética'
     },
     {
         id: 'jabones',
         name: 'Jabones Naturales',
-        image: 'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=800&auto=format&fit=crop', // Soap Stack (Reliable)
+        image: '/images/cat-soaps.jpg', // Soap Stack (Reliable)
         filter: 'jabones',
         description: 'Pureza botánica para tu piel'
     },
     {
         id: 'cremas',
         name: 'Cremas & Elixires',
-        image: 'https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?q=80&w=800&auto=format&fit=crop', // Amber Bottles/Cream (Reliable)
+        image: '/images/cat-creams.jpg', // Amber Bottles/Cream (Reliable)
         filter: 'cremas',
         description: 'Nutrición profunda y consciente'
     }

@@ -6,7 +6,7 @@ const Hero = () => {
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
                 <img
-                    src="https://images.unsplash.com/photo-1518063319789-7217e6706b04?q=80&w=1920&auto=format&fit=crop"
+                    src="/images/hero-mystic.jpg"
                     alt="Bosque Místico y Niebla"
                     className="w-full h-full object-cover opacity-80"
                 />

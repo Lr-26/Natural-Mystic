@@ -10,7 +10,10 @@ async function bootstrap() {
 
   // Security
   app.use(helmet());
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:5174', 'http://localhost:5173'], // Allow both for flexibility
+    credentials: true,
+  });
 
   // Validation
   app.useGlobalPipes(new ValidationPipe({

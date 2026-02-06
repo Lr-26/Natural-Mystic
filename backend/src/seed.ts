@@ -13,7 +13,7 @@ async function bootstrap() {
             description: 'Vela alquímica de cera de soja pura con aceite esencial de lavanda orgánica y cristales de amatista. Ideal para meditación y calma.',
             price: 22.00,
             category: 'Velas',
-            image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=800&auto=format&fit=crop', // Candle/Dark light
+            image: '/images/cat-candles.jpg', // Candle/Dark light
             stock: 30,
         },
         {
@@ -21,7 +21,7 @@ async function bootstrap() {
             description: 'Aroma profundo a pino, musgo y tierra húmeda. Cera de soja 100% natural libre de parafinas.',
             price: 24.00,
             category: 'Velas',
-            image: 'https://images.unsplash.com/photo-1602166657523-8bc105658bd7?q=80&w=800&auto=format&fit=crop', // Dark green/nature
+            image: '/images/cat-candles.jpg', // Dark green/nature
             stock: 25,
         },
 
@@ -31,7 +31,7 @@ async function bootstrap() {
             description: 'Madera sagrada recolectada sustentablemente en Perú. Limpia la energía densa y eleva la vibración del hogar.',
             price: 12.00,
             category: 'Sahumerios',
-            image: 'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?q=80&w=800&auto=format&fit=crop', // Wood incense
+            image: '/images/cat-incense.jpg', // Wood incense
             stock: 100,
         },
         {
@@ -39,7 +39,7 @@ async function bootstrap() {
             description: 'Sahumo ancestral de salvia blanca californiana. Purificación profunda de espacios y aura.',
             price: 18.00,
             category: 'Sahumerios',
-            image: 'https://images.unsplash.com/photo-1519638399535-1b036603ac77?q=80&w=800&auto=format&fit=crop', // Smudge
+            image: '/images/cat-incense.jpg', // Smudge
             stock: 50,
         },
 
@@ -49,7 +49,7 @@ async function bootstrap() {
             description: 'Jabón saponificado en frío con leche de avena y miel orgánica. Suavidad extrema para pieles sensibles.',
             price: 10.50,
             category: 'Jabones',
-            image: 'https://images.unsplash.com/photo-1613521140785-e85e427f8002?q=80&w=800&auto=format&fit=crop', // Oats/Honey vibe
+            image: '/images/cat-soaps.jpg', // Oats/Honey vibe
             stock: 40,
         },
         {
@@ -57,7 +57,7 @@ async function bootstrap() {
             description: 'Hecho con aceite de rosa mosqueta y pétalos reales. Propiedades regeneradoras y aroma embriagador.',
             price: 12.00,
             category: 'Jabones',
-            image: 'https://images.unsplash.com/photo-1605152276897-4f618f831968?q=80&w=800&auto=format&fit=crop', // Rose soap
+            image: '/images/cat-soaps.jpg', // Rose soap
             stock: 35,
         },
 
@@ -67,7 +67,7 @@ async function bootstrap() {
             description: 'Crema facial rica en caléndula y manteca de karité. Hidratación profunda y brillo natural.',
             price: 28.00,
             category: 'Cremas',
-            image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop', // Cream jar
+            image: '/images/cat-creams.jpg', // Cream jar
             stock: 20,
         },
         {
@@ -75,7 +75,7 @@ async function bootstrap() {
             description: 'Concentrado de aceites botánicos con bakuchiol y lavanda. Reparación intensiva mientras duermes.',
             price: 35.00,
             category: 'Cremas',
-            image: 'https://images.unsplash.com/photo-1556228552-cab0774a8864?q=80&w=800&auto=format&fit=crop', // Dropper/Serum
+            image: '/images/cat-creams.jpg', // Dropper/Serum
             stock: 15,
         },
     ];
