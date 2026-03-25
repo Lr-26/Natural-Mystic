@@ -79,11 +79,81 @@ select {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(26, 16, 20, 0.4);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid rgba(212, 140, 157, 0.2);
 }
 
 .premium-shadow {
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.8; }
+  100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+.particle {
+  position: absolute;
+  background: radial-gradient(circle at 30% 30%, rgba(212, 140, 157, 0.6), transparent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: 0 0 15px rgba(212, 140, 157, 0.4);
+}
+
+.nav-pill {
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    left: 0;
+    right: 0;
+}
+
+.nav-pill-scrolled {
+    width: 96% !important;
+    max-width: 1400px;
+    margin-top: 15px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    border-radius: 40px;
+    background: rgba(18, 10, 12, 0.85) !important;
+    backdrop-filter: blur(50px) saturate(220%);
+    border: 1px solid rgba(212, 140, 157, 0.4);
+    padding: 0 64px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+}
+
+.text-gradient-mystic {
+    background: linear-gradient(135deg, #FFFFFF 0%, #D48C9D 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+  color: inherit;
+}
+
+.hover-underline-animation:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -4px;
+  left: 0;
+  background: linear-gradient(90deg, transparent, #D48C9D, transparent);
+  transform-origin: bottom right;
+  transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}

@@ -9,7 +9,7 @@ const ProductCard = ({ product }: { product: any }) => {
         'Velas': '/images/cat-candles.jpg',
         'Sahumerios': '/images/cat-incense.jpg',
         'Jabones': '/images/cat-soaps.jpg',
-        'Cremas': '/images/cat-creams.jpg'
+        'Bálsamos & Óleos': 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=1200'
     };
 
     const imageSrc = categoryImages[product.category] || product.image;

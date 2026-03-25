@@ -7,11 +7,35 @@ import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
 
-  // Security
-  app.use(helmet());
+  // Security - Disable some protections only in DEV to allow the proxy to work smoothly
+  if (process.env.NODE_ENV !== 'production') {
+    app.use(helmet({
+      contentSecurityPolicy: false, 
+    }));
+  } else {
+    app.use(helmet());
+  }
+
+  // ONE PORT CONFIG: Proxy all frontend requests to Vite (5174)
+  if (process.env.NODE_ENV !== 'production') {
+    const { createProxyMiddleware } = require('http-proxy-middleware');
+    app.use((req, res, next) => {
+        // Only proxy if NOT starting with /api or /docs
+        if (req.url.startsWith('/api') || req.url.startsWith('/docs')) {
+          return next();
+        }
+        return createProxyMiddleware({
+          target: 'http://localhost:5174',
+          changeOrigin: true,
+          ws: true,
+        })(req, res, next);
+    });
+  }
+
   app.enableCors({
-    origin: ['http://localhost:5174', 'http://localhost:5173'], // Allow both for flexibility
+    origin: '*', 
     credentials: true,
   });
 

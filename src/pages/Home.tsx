@@ -4,6 +4,7 @@ import { Droplets, Flower, Sparkles, Leaf, Heart, Moon, Quote, Star } from 'luci
 import { motion } from 'framer-motion'
 import Hero from '../components/Hero'
 import ProductGrid from '../components/ProductGrid'
+import SaaSFactoryCTA from '../components/SaaSFactoryCTA'
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 60 },
@@ -149,9 +150,11 @@ const Home = () => {
                 </div>
             </motion.div>
 
-            <div id="productos" className="bg-white">
+            <div id="productos" className="bg-desert-text/5 overflow-hidden">
                 <ProductGrid />
             </div>
+
+            <SaaSFactoryCTA />
 
 
             {/* TESTIMONIOS - Background: Starry Night */}

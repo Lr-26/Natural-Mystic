@@ -10,6 +10,7 @@ import AdminDashboard from './components/AdminDashboard'
 import Login from './components/Login'
 import Checkout from './components/Checkout'
 import Home from './pages/Home'
+import SaaSFactoryPage from './pages/SaaSFactoryPage'
 
 // Protected Route Component
 const ProtectedAdminRoute = ({ children }: { children: ReactNode }) => {
@@ -47,6 +48,7 @@ function AppContent() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/factory" element={<SaaSFactoryPage />} />
         <Route
           path="/checkout"
           element={

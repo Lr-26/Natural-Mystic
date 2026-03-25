@@ -27,11 +27,11 @@ const categories = [
         description: 'Pureza botánica para tu piel'
     },
     {
-        id: 'cremas',
-        name: 'Cremas & Elixires',
-        image: '/images/cat-creams.jpg', // Amber Bottles/Cream (Reliable)
+        id: 'oleos',
+        name: 'Bálsamos & Óleos',
+        image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=1200',
         filter: 'cremas',
-        description: 'Nutrición profunda y consciente'
+        description: 'Nutrición botánica y elixires del desierto'
     }
 ];
 
@@ -80,7 +80,7 @@ const ProductGrid = () => {
     }
 
     return (
-        <section id="productos" className="py-16 md:py-24 bg-white">
+        <section id="productos" className="py-16 md:py-24 bg-transparent relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-desert-secondary font-montserrat tracking-[0.2em] uppercase text-xs mb-3 italic font-bold">
