@@ -7,7 +7,6 @@ import Navbar from './components/Navbar'
 import CartDrawer from './components/CartDrawer'
 import Footer from './components/Footer'
 import AdminDashboard from './components/AdminDashboard'
-import Login from './components/Login'
 import Checkout from './components/Checkout'
 import Home from './pages/Home'
 import SaaSFactoryPage from './pages/SaaSFactoryPage'
@@ -30,13 +29,9 @@ const ProtectedCheckoutRoute = ({ children }: { children: ReactNode }) => {
   return children;
 };
 
-// Login Route - redirects to admin if already logged in
+// Login Route - redirects to home if accessed directly
 const LoginRoute = () => {
-  const { isAdmin } = useAdmin();
-  if (isAdmin) {
-    return <Navigate to="/admin" replace />;
-  }
-  return <Login />;
+  return <Navigate to="/" replace />;
 };
 
 function AppContent() {

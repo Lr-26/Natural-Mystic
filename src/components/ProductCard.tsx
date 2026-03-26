@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { Plus, ShoppingBag } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 const ProductCard = ({ product }: { product: any }) => {
     const { addToCart } = useCart();
@@ -54,12 +54,12 @@ const ProductCard = ({ product }: { product: any }) => {
                     <span className="text-desert-primary font-cinzel text-xl font-bold">
                         ${typeof product.price === 'number' ? product.price.toFixed(2) : '0.00'}
                     </span>
-                    <button
-                        onClick={(e) => { e.stopPropagation(); addToCart(product); }}
-                        className="md:hidden flex items-center gap-1 text-[10px] text-desert-accent uppercase font-bold tracking-tighter"
+                    <a 
+                        href="#contacto"
+                        className="flex items-center gap-2 px-6 py-2 bg-desert-accent text-desert-primary font-cinzel text-[10px] font-black uppercase tracking-[0.2em] rounded-sm hover:bg-desert-primary hover:text-white transition-all shadow-md"
                     >
-                        <ShoppingBag size={14} /> Añadir
-                    </button>
+                        Comprar
+                    </a>
                 </div>
             </div>
         </motion.div>

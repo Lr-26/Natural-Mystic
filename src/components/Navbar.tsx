@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Sparkles } from 'lucide-react';
+import { ShoppingCart, Menu, X, Sparkles, User, LogOut, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useAdmin } from '../context/AdminContext';
@@ -78,7 +78,7 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
             />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-                <div className="flex justify-between items-center w-full">
+                <div className="flex justify-between items-center w-full gap-12">
                     <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-3 group">
                         <motion.div 
                             whileHover={{ rotate: 15, scale: 1.1 }}
@@ -110,7 +110,7 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                     {/* Desktop/Mobile Right Actions */}
                     <div className="flex items-center gap-4">
                         {/* Desktop Links (Hidden on small mobile) */}
-                        <div className="hidden lg:flex items-center space-x-8 mr-6">
+                        <div className="hidden lg:flex items-center space-x-8 ml-12 mr-6">
                             <a href="/#historia" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Historia</a>
                             <a href="/#ingredientes" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Esencias</a>
                             <a href="/#productos" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Colección</a>
@@ -132,6 +132,34 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                                 </span>
                             )}
                         </motion.button>
+
+                        {/* Desktop Account Action */}
+                        <div className="hidden lg:block">
+                            {user ? (
+                                <div className="flex items-center gap-3">
+                                    {isAdmin && (
+                                        <Link to="/admin" className="p-2.5 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all border border-white/20" title="Panel Admin">
+                                            <Settings size={20} />
+                                        </Link>
+                                    )}
+                                    <button 
+                                        onClick={handleLogout}
+                                        className="p-2.5 bg-red-900/20 hover:bg-red-900/40 rounded-full text-red-400 transition-all border border-red-500/20"
+                                        title="Cerrar Sesión"
+                                    >
+                                        <LogOut size={20} />
+                                    </button>
+                                </div>
+                            ) : (
+                                <a 
+                                    href="#contacto"
+                                    className="flex items-center gap-2 px-5 py-2.5 bg-desert-accent text-desert-primary font-cinzel text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-white transition-all shadow-lg"
+                                >
+                                    <User size={16} />
+                                    Entrar
+                                </a>
+                            )}
+                        </div>
                         
                         <button 
                             onClick={() => setIsMenuOpen(!isMenuOpen)} 
@@ -173,11 +201,11 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                             {/* Staggered Navigation Links */}
                             <div className="flex-1 flex flex-col justify-center items-center gap-10">
                                 {[
-                                    { name: 'Historia', href: '#historia' },
-                                    { name: 'Esencias', href: '#ingredientes' },
-                                    { name: 'Colección', href: '#productos' },
+                                    { name: 'Historia', href: '/#historia' },
+                                    { name: 'Esencias', href: '/#ingredientes' },
+                                    { name: 'Colección', href: '/#productos' },
                                     { name: 'Alquimia Tech', href: '/factory', special: true },
-                                    { name: 'Contacto', href: '#contacto' }
+                                    { name: 'Contacto', href: '/#contacto' }
                                 ].map((link, index) => (
                                     <motion.div
                                         key={link.name}
@@ -240,7 +268,7 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                                 ) : (
                                     <div className="flex justify-center">
                                         <a
-                                            href="#contacto"
+                                            href="/#contacto"
                                             onClick={() => setIsMenuOpen(false)}
                                             className="px-16 py-5 bg-desert-accent text-desert-primary font-cinzel uppercase tracking-[0.4em] text-xs font-black text-center rounded-sm shadow-[0_0_30px_rgba(212,140,157,0.3)] transition-transform hover:scale-105"
                                         >
