@@ -101,33 +101,68 @@ select {
 }
 
 .nav-pill {
-    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    left: 0;
-    right: 0;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-pill-scrolled {
     width: 96% !important;
     max-width: 1400px;
     margin-top: 15px;
-    height: 70px; /* Reducido levemente para móvil */
+    height: 70px;
     display: flex;
     align-items: center;
-    border-radius: 40px;
-    background: rgba(18, 10, 12, 0.85) !important;
-    backdrop-filter: blur(50px) saturate(220%);
-    border: 1px solid rgba(212, 140, 157, 0.4);
-    padding: 0 24px; /* Reducido de 64px para móvil */
+    border-radius: 100px; /* Mas redondeado para un look más moderno */
+    background: rgba(18, 10, 12, 0.75) !important;
+    backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(212, 140, 157, 0.3);
+    padding: 0 30px;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(212, 140, 157, 0.05); /* Brillo interno suave */
 }
 
 @media (min-width: 768px) {
     .nav-pill-scrolled {
-        padding: 0 64px;
-        height: 80px;
+        padding: 0 50px;
+        height: 75px;
+        border: 1px solid rgba(212, 140, 157, 0.2);
     }
+    
+    .nav-pill-scrolled:hover {
+        border-color: rgba(212, 140, 157, 0.5);
+        box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(212, 140, 157, 0.1);
+    }
+}
+
+.nav-link-mystic {
+    position: relative;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+}
+
+.nav-link-mystic::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #D48C9D, transparent);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(-50%);
+}
+
+.nav-link-mystic:hover::after {
+    width: 100%;
+}
+
+.nav-link-mystic:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(212, 140, 157, 0.3);
 }
 
 .text-gradient-mystic {
