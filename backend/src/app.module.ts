@@ -11,6 +11,7 @@ import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
 import { SupabaseModule } from './supabase/supabase.module';
 import { ContactModule } from './contact/contact.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ContactModule } from './contact/contact.module';
     PaymentsModule,
     SupabaseModule,
     ContactModule,
+    MailModule,
   ],
 
 

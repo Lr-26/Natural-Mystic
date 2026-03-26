@@ -5,14 +5,16 @@ import { toast } from 'sonner';
 import { 
     Plus, Trash2, LogOut, Package, RefreshCw, Edit2, 
     ExternalLink, Users, Sparkles, MessageSquare, 
-    Menu as MenuIcon, X 
+    Menu as MenuIcon, X, UserCheck
 } from 'lucide-react';
 import { getProducts, deleteProduct, type Product } from '../services/product.service';
 import { useAdmin } from '../context/AdminContext';
 import UserManagement from './UserManagement';
+import MessagePanel from './MessagePanel';
+import ContactPanel from './ContactPanel';
 
 const AdminDashboard = () => {
-    const [activeTab, setActiveTab] = useState<'products' | 'users' | 'messages'>('products');
+    const [activeTab, setActiveTab] = useState<'products' | 'users' | 'messages' | 'contacts'>('products');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
@@ -38,7 +40,8 @@ const AdminDashboard = () => {
 
     const sidebarItems = [
         { id: 'products', label: 'Catálogo', icon: <Package size={20} /> },
-        { id: 'users', label: 'Tribu (Usuarios)', icon: <Users size={20} /> },
+        { id: 'users', label: 'Tribu (Registro)', icon: <UserCheck size={20} /> },
+        { id: 'contacts', label: 'Círculo (Leads)', icon: <Users size={20} /> },
         { id: 'messages', label: 'Visiones (Mensajes)', icon: <MessageSquare size={20} /> },
     ];
 
@@ -129,8 +132,11 @@ const AdminDashboard = () => {
                 {/* Header */}
                 <header className="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-desert-accent/10 h-24 flex items-center px-8 md:px-12 justify-between">
                     <div>
-                        <h1 className="text-desert-primary font-cinzel text-xl md:text-2xl font-bold tracking-widest">
-                            {activeTab === 'products' ? 'Gestión de Tesoros' : activeTab === 'users' ? 'Círculo de la Tribu' : 'Mensajes del Cosmos'}
+                        <h1 className="text-desert-primary font-cinzel text-xl md:text-2xl font-bold tracking-widest uppercase">
+                            {activeTab === 'products' ? 'Gestión de Tesoros' 
+                                : activeTab === 'users' ? 'Círculo de la Tribu' 
+                                : activeTab === 'contacts' ? 'Almas en el Camino'
+                                : 'Mensajes del Cosmos'}
                         </h1>
                         <p className="text-[10px] md:text-xs text-desert-text font-montserrat uppercase tracking-widest">
                             Bienvenido de nuevo, <span className="text-desert-accent font-bold">{user?.email?.split('@')[0]}</span>
@@ -160,7 +166,7 @@ const AdminDashboard = () => {
                                  <button
                                     onClick={() => setIsAdding(!isAdding)}
                                     className="w-full md:w-auto px-8 py-4 bg-desert-primary text-white font-cinzel font-bold tracking-[0.2em] uppercase rounded-xl hover:bg-desert-accent transition-all shadow-glow flex items-center justify-center gap-2"
-                                >
+                                 >
                                     <Plus size={20} /> {isAdding ? 'Cerrar Panel' : 'Añadir Magia'}
                                 </button>
                              </div>
@@ -221,11 +227,10 @@ const AdminDashboard = () => {
                         </div>
                     ) : activeTab === 'users' ? (
                         <UserManagement token={localStorage.getItem('access_token') || ''} />
+                    ) : activeTab === 'contacts' ? (
+                        <ContactPanel />
                     ) : (
-                        <div className="flex flex-col items-center justify-center py-20 opacity-50 gap-4">
-                            <MessageSquare size={40} className="text-desert-accent" />
-                            <p className="font-cinzel tracking-widest uppercase">Próximamente: Visiones del Cosmos</p>
-                        </div>
+                        <MessagePanel />
                     )}
                 </div>
             </main>

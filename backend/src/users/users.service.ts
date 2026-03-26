@@ -2,10 +2,14 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { User } from './schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 import { SupabaseService } from '../supabase/supabase.service';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class UsersService {
-    constructor(private supabaseService: SupabaseService) {
+    constructor(
+        private supabaseService: SupabaseService,
+        private mailService: MailService,
+    ) {
         // Initialize admin if doesn't exists (check Supabase)
         this.initializeAdminIfNeeded();
     }
@@ -50,13 +54,14 @@ export class UsersService {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const name = (extraData.name || email.split('@')[0]);
         const { data: newUser, error: insertError } = await this.supabaseService.getClient()
             .from('users')
             .insert([{
                 email,
                 password: hashedPassword,
                 role: 'user',
-                name: email.split('@')[0],
+                name,
                 ...extraData // Any professional comments or extra metadata
             }])
             .select()
@@ -65,6 +70,9 @@ export class UsersService {
         if (insertError) {
             throw new Error(`Error al registrar usuario: ${insertError.message}`);
         }
+
+        // Enviamos el correo de bienvenida sin bloquear la respuesta
+        this.mailService.sendWelcomeEmail(email, name);
 
         return newUser;
     }

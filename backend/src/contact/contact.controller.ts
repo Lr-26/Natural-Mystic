@@ -14,4 +14,9 @@ export class ContactController {
     async getMessages() {
         return this.contactService.findAll();
     }
+
+    @Get('contacts')
+    async getContacts() {
+        return this.contactService.findAllContacts();
+    }
 }
