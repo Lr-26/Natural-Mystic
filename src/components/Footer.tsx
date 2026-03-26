@@ -181,7 +181,7 @@ const Footer = () => {
                                         type="text"
                                         value={formData.name}
                                         onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                        className="w-full bg-black/40 border border-desert-accent/20 py-3 px-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20"
+                                        className="w-full bg-black/40 border border-desert-accent/20 py-3 px-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20 dark-input"
                                         placeholder="Tu nombre..."
                                     />
                                 </div>
@@ -192,7 +192,7 @@ const Footer = () => {
                                         type="text"
                                         value={formData.lastName}
                                         onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                                        className="w-full bg-black/40 border border-desert-accent/20 py-3 px-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20"
+                                        className="w-full bg-black/40 border border-desert-accent/20 py-3 px-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20 dark-input"
                                         placeholder="Tu apellido..."
                                     />
                                 </div>
@@ -207,7 +207,7 @@ const Footer = () => {
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                        className="w-full bg-black/40 border border-desert-accent/20 py-3 pl-10 pr-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20"
+                                        className="w-full bg-black/40 border border-desert-accent/20 py-3 pl-10 pr-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20 dark-input"
                                         placeholder="email@ejemplo.com"
                                     />
                                 </div>
@@ -223,7 +223,7 @@ const Footer = () => {
                                             type="tel"
                                             value={formData.phone}
                                             onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                                            className="w-full bg-black/40 border border-desert-accent/20 py-3 pl-10 pr-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20"
+                                            className="w-full bg-black/40 border border-desert-accent/20 py-3 pl-10 pr-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20 dark-input"
                                             placeholder="+54 9..."
                                         />
                                     </div>
@@ -237,7 +237,7 @@ const Footer = () => {
                                             type="password"
                                             value={formData.password}
                                             onChange={(e) => setFormData({...formData, password: e.target.value})}
-                                            className="w-full bg-black/40 border border-desert-accent/20 py-3 pl-10 pr-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20"
+                                            className="w-full bg-black/40 border border-desert-accent/20 py-3 pl-10 pr-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all rounded-sm placeholder:text-white/20 dark-input"
                                             placeholder="••••••••"
                                         />
                                     </div>
@@ -251,7 +251,7 @@ const Footer = () => {
                                         rows={2}
                                         value={formData.comment}
                                         onChange={(e) => setFormData({...formData, comment: e.target.value})}
-                                        className="w-full bg-black/40 border border-desert-accent/20 py-3 px-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all resize-none rounded-sm placeholder:text-white/20"
+                                        className="w-full bg-black/40 border border-desert-accent/20 py-3 px-4 text-desert-accent text-sm font-montserrat focus:outline-none focus:border-desert-accent/60 transition-all resize-none rounded-sm placeholder:text-white/20 dark-input"
                                         placeholder="Cuéntanos tu visión..."
                                     />
                                 </div>

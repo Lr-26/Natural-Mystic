@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,7 +11,7 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const lastScrollY = useRef(0);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
@@ -19,9 +19,8 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
         
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-            const isMovingDown = currentScrollY > lastScrollY;
+            const isMovingDown = currentScrollY > lastScrollY.current;
             
-            // 1. Determine if we are exactly at a section start (+/- 100px)
             const isAtSection = sections.some(id => {
                 const el = document.getElementById(id);
                 if (!el) return false;
@@ -29,11 +28,6 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                 return currentScrollY >= top && currentScrollY <= top + 200;
             });
 
-            // 2. Core Visibility Logic:
-            // - Show at top (Hero)
-            // - Show if we are exactly at a section start
-            // - Show if scrolling UP
-            // - Hide if scrolling DOWN and not at a section
             if (currentScrollY < 100 || isAtSection || !isMovingDown || isMenuOpen) {
                 setIsVisible(true);
             } else {
@@ -41,12 +35,12 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
             }
 
             setIsScrolled(currentScrollY > 50);
-            setLastScrollY(currentScrollY);
+            lastScrollY.current = currentScrollY;
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [lastScrollY, isMenuOpen]);
+    }, [isMenuOpen]);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -118,7 +112,11 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                         {/* Desktop Links (Hidden on small mobile) */}
                         <div className="hidden lg:flex items-center space-x-8 mr-6">
                             <a href="/#historia" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Historia</a>
+                            <a href="/#ingredientes" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Esencias</a>
                             <a href="/#productos" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Colección</a>
+                            <Link to="/factory" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-desert-accent italic">Alquimia Tech</Link>
+                            <a href="/#testimonios" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Testimonios</a>
+                            <a href="/#contacto" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Contacto</a>
                         </div>
 
                         <motion.button
@@ -137,7 +135,7 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                         
                         <button 
                             onClick={() => setIsMenuOpen(!isMenuOpen)} 
-                            className="p-2.5 bg-desert-accent text-desert-primary rounded-full hover:bg-white transition-colors shadow-lg"
+                            className="lg:hidden p-2.5 bg-desert-accent text-desert-primary rounded-full hover:bg-white transition-colors shadow-lg"
                         >
                             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
@@ -145,80 +143,114 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                 </div>
             </div>
 
-            {/* Side Sidebar (Drawer) - Full Height */}
+            {/* Mobile Dropdown Menu (Full Screen Centered) */}
             <AnimatePresence>
                 {isMenuOpen && (
-                    <>
-                        {/* Backdrop */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setIsMenuOpen(false)}
-                            className="fixed inset-0 z-[60] bg-black/90 md:hidden"
-                        />
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: '100vh' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl md:hidden overflow-hidden"
+                    >
+                        {/* Mystic Background Elements */}
+                        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+                            <div className="absolute top-[20%] left-[10%] w-64 h-64 bg-desert-accent rounded-full blur-[100px] animate-pulse" />
+                            <div className="absolute bottom-[20%] right-[10%] w-64 h-64 bg-desert-primary rounded-full blur-[100px] animate-pulse delay-700" />
+                        </div>
 
-                        {/* Drawer Content */}
-                        <motion.div
-                            initial={{ x: '100%' }}
-                            animate={{ x: 0 }}
-                            exit={{ x: '100%' }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed top-0 right-0 bottom-0 z-[70] w-full sm:w-80 bg-black md:hidden flex flex-col shadow-2xl"
-                        >
-                            <div className="p-6 flex justify-between items-center border-b border-white/10">
-                                <span className="font-cinzel text-sm font-bold tracking-[0.3em] text-white">Natural Mystic</span>
+                        <div className="relative z-10 h-full flex flex-col pt-24 px-8">
+                            {/* Close Button Inside Menu */}
+                            <div className="absolute top-6 right-8">
                                 <button
                                     onClick={() => setIsMenuOpen(false)}
-                                    className="p-2 text-white hover:text-desert-accent transition-colors"
+                                    className="p-3 bg-white/10 text-white rounded-full hover:bg-white/20 transition-all border border-white/10"
                                 >
-                                    <X size={24} />
+                                    <X size={28} />
                                 </button>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto px-8 py-10 flex flex-col justify-center space-y-8">
-                                <a href="#historia" onClick={() => setIsMenuOpen(false)} className="text-sm font-cinzel text-white hover:text-desert-accent transition-colors tracking-[0.3em] uppercase">Historia</a>
-                                <a href="#ingredientes" onClick={() => setIsMenuOpen(false)} className="text-sm font-cinzel text-white hover:text-desert-accent transition-colors tracking-[0.3em] uppercase">Esencias</a>
-                                <a href="#productos" onClick={() => setIsMenuOpen(false)} className="text-sm font-cinzel text-white hover:text-desert-accent transition-colors tracking-[0.3em] uppercase">Colección</a>
-                                <Link to="/factory" onClick={() => setIsMenuOpen(false)} className="text-sm font-cinzel text-desert-accent hover:text-white transition-colors uppercase tracking-[0.3em] font-bold italic">Alquimia Tech</Link>
-                                <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="text-sm font-cinzel text-white hover:text-desert-accent transition-colors tracking-[0.3em] uppercase">Contacto</a>
+                            {/* Staggered Navigation Links */}
+                            <div className="flex-1 flex flex-col justify-center items-center gap-10">
+                                {[
+                                    { name: 'Historia', href: '#historia' },
+                                    { name: 'Esencias', href: '#ingredientes' },
+                                    { name: 'Colección', href: '#productos' },
+                                    { name: 'Alquimia Tech', href: '/factory', special: true },
+                                    { name: 'Contacto', href: '#contacto' }
+                                ].map((link, index) => (
+                                    <motion.div
+                                        key={link.name}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
+                                    >
+                                        {link.href.startsWith('/') ? (
+                                            <Link
+                                                to={link.href}
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className={`text-2xl font-cinzel tracking-[0.4em] uppercase text-center transition-all ${link.special ? 'text-desert-accent font-bold italic' : 'text-white/80 hover:text-white'}`}
+                                            >
+                                                {link.name}
+                                            </Link>
+                                        ) : (
+                                            <a
+                                                href={link.href}
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="text-2xl font-cinzel tracking-[0.4em] uppercase text-white/80 hover:text-white transition-all text-center block"
+                                            >
+                                                {link.name}
+                                            </a>
+                                        )}
+                                    </motion.div>
+                                ))}
                             </div>
 
-                            <div className="p-8 border-t border-white/10 space-y-6">
+                            {/* Auth Actions Bottom */}
+                            <motion.div 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.8 }}
+                                className="pb-20 border-t border-white/10 pt-10"
+                            >
                                 {user ? (
-                                    <>
+                                    <div className="flex flex-col items-center gap-6">
                                         <div className="text-center">
-                                            <p className="text-[9px] text-white/40 uppercase tracking-widest mb-1 italic">Sesión Segrada</p>
-                                            <p className="text-white text-[10px] font-montserrat truncate">{user.email}</p>
+                                            <p className="text-[10px] text-white/30 uppercase tracking-[0.5em] mb-2 italic">Tribu Natural Mystic</p>
+                                            <p className="text-white/60 text-xs font-montserrat">{user.email}</p>
                                         </div>
-                                        {isAdmin && (
-                                            <Link 
-                                                to="/admin" 
-                                                onClick={() => setIsMenuOpen(false)} 
-                                                className="block px-6 py-3 bg-white text-black text-center font-cinzel uppercase tracking-[0.2em] text-[10px] font-bold rounded-sm"
+                                        <div className="flex gap-4 w-full justify-center">
+                                            {isAdmin && (
+                                                <Link
+                                                    to="/admin"
+                                                    onClick={() => setIsMenuOpen(false)}
+                                                    className="px-8 py-3 bg-white text-black font-cinzel uppercase tracking-[0.2em] text-[10px] font-black rounded-sm shadow-xl"
+                                                >
+                                                    Admin
+                                                </Link>
+                                            )}
+                                            <button
+                                                onClick={handleLogout}
+                                                className="px-8 py-3 bg-red-900/30 text-red-500 font-cinzel uppercase tracking-[0.2em] text-[10px] font-bold rounded-sm border border-red-500/20"
                                             >
-                                                Panel Admin
-                                            </Link>
-                                        )}
-                                        <button
-                                            onClick={handleLogout}
-                                            className="w-full text-[9px] tracking-[0.3em] uppercase font-bold text-red-500 opacity-60 hover:opacity-100 transition-opacity"
-                                        >
-                                            Cerrar Círculo
-                                        </button>
-                                    </>
+                                                Cerrar
+                                            </button>
+                                        </div>
+                                    </div>
                                 ) : (
-                                    <a
-                                        href="#contacto"
-                                        onClick={() => setIsMenuOpen(false)}
-                                        className="block px-10 py-4 bg-white text-black font-cinzel uppercase tracking-[0.3em] text-[10px] font-black text-center rounded-sm"
-                                    >
-                                        Entrar
-                                    </a>
+                                    <div className="flex justify-center">
+                                        <a
+                                            href="#contacto"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="px-16 py-5 bg-desert-accent text-desert-primary font-cinzel uppercase tracking-[0.4em] text-xs font-black text-center rounded-sm shadow-[0_0_30px_rgba(212,140,157,0.3)] transition-transform hover:scale-105"
+                                        >
+                                            Acceder
+                                        </a>
+                                    </div>
                                 )}
-                            </div>
-                        </motion.div>
-                    </>
+                            </motion.div>
+                        </div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </motion.nav >

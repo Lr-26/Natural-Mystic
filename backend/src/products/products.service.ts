@@ -8,7 +8,7 @@ export class ProductsService {
 
     async findAll(): Promise<Product[]> {
         const { data, error } = await this.supabaseService.getClient()
-            .from('products')
+            .from('Proyecto-Rubi')
             .select('*');
 
         if (error) {
@@ -22,7 +22,7 @@ export class ProductsService {
 
     async findOne(id: string): Promise<Product> {
         const { data, error } = await this.supabaseService.getClient()
-            .from('products')
+            .from('Proyecto-Rubi')
             .select('*')
             .eq('id', id)
             .single();
@@ -35,7 +35,7 @@ export class ProductsService {
 
     async create(createProductDto: any): Promise<Product> {
         const { data, error } = await this.supabaseService.getClient()
-            .from('products')
+            .from('Proyecto-Rubi')
             .insert([createProductDto])
             .select()
             .single();
@@ -48,7 +48,7 @@ export class ProductsService {
 
     async update(id: string, updateProductDto: any): Promise<Product> {
         const { data, error } = await this.supabaseService.getClient()
-            .from('products')
+            .from('Proyecto-Rubi')
             .update(updateProductDto)
             .eq('id', id)
             .select()
@@ -62,7 +62,7 @@ export class ProductsService {
 
     async delete(id: string): Promise<any> {
         const { error } = await this.supabaseService.getClient()
-            .from('products')
+            .from('Proyecto-Rubi')
             .delete()
             .eq('id', id);
 
