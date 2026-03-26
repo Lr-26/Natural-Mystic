@@ -147,12 +147,12 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                                 )}
                             </div>
                         ) : (
-                            <Link
-                                to="/login"
+                            <a
+                                href="#contacto"
                                 className="px-6 py-2 glass text-white font-montserrat text-[10px] tracking-widest uppercase font-bold hover:bg-desert-accent/20 transition-all rounded-full border-desert-accent/30"
                             >
                                 Entrar
-                            </Link>
+                            </a>
                         )}
 
                         <motion.button
@@ -230,13 +230,13 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                                         </button>
                                     </>
                                 ) : (
-                                    <Link
-                                        to="/login"
+                                    <a
+                                        href="#contacto"
                                         onClick={() => setIsMenuOpen(false)}
-                                        className="px-8 py-4 bg-desert-primary text-white font-cinzel uppercase tracking-widest text-lg font-bold shadow-lg w-full max-w-xs hover:bg-desert-accent transition-colors"
+                                        className="px-8 py-4 bg-desert-primary text-white font-cinzel uppercase tracking-widest text-lg font-bold shadow-lg w-full max-w-xs hover:bg-desert-accent transition-colors block text-center"
                                     >
-                                        Iniciar Sesión
-                                    </Link>
+                                        Entrar
+                                    </a>
                                 )}
                             </div>
                         </div>

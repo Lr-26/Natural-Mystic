@@ -1,49 +1,86 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Order, OrderDocument } from './schemas/order.schema';
+import { Order } from './schemas/order.schema';
+import { SupabaseService } from '../supabase/supabase.service';
 
 @Injectable()
 export class OrdersService {
-    constructor(
-        @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
-    ) { }
+    constructor(private supabaseService: SupabaseService) { }
 
-    async create(orderData: any): Promise<OrderDocument> {
+    async create(orderData: any): Promise<any> {
         const orderNumber = this.generateOrderNumber();
-        const newOrder = new this.orderModel({
-            ...orderData,
-            orderNumber,
-        });
-        return newOrder.save();
+        const { data, error } = await this.supabaseService.getClient()
+            .from('orders')
+            .insert([{
+                ...orderData,
+                order_number: orderNumber,
+                status: 'pending',
+                payment_status: 'pending',
+                created_at: new Date().toISOString()
+            }])
+            .select()
+            .single();
+
+        if (error) {
+            throw new Error(`Error creating order: ${error.message}`);
+        }
+
+        return data;
     }
 
-    async findAll(): Promise<OrderDocument[]> {
-        return this.orderModel.find().sort({ createdAt: -1 }).exec();
+    async findAll(): Promise<any[]> {
+        const { data, error } = await this.supabaseService.getClient()
+            .from('orders')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) return [];
+        return data;
     }
 
-    async findByUserId(userId: string): Promise<OrderDocument[]> {
-        return this.orderModel.find({ userId }).sort({ createdAt: -1 }).exec();
+    async findByUserId(userId: string): Promise<any[]> {
+        const { data, error } = await this.supabaseService.getClient()
+            .from('orders')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false });
+
+        if (error) return [];
+        return data;
     }
 
-    async findById(id: string): Promise<OrderDocument | null> {
-        return this.orderModel.findById(id).exec();
+    async findById(id: string): Promise<any | null> {
+        const { data, error } = await this.supabaseService.getClient()
+            .from('orders')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) return null;
+        return data;
     }
 
-    async updateStatus(id: string, status: string): Promise<OrderDocument | null> {
-        return this.orderModel.findByIdAndUpdate(
-            id,
-            { status },
-            { new: true }
-        ).exec();
+    async updateStatus(id: string, status: string): Promise<any | null> {
+        const { data, error } = await this.supabaseService.getClient()
+            .from('orders')
+            .update({ status })
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) return null;
+        return data;
     }
 
-    async updatePaymentStatus(id: string, paymentStatus: string): Promise<OrderDocument | null> {
-        return this.orderModel.findByIdAndUpdate(
-            id,
-            { paymentStatus },
-            { new: true }
-        ).exec();
+    async updatePaymentStatus(id: string, paymentStatus: string): Promise<any | null> {
+        const { data, error } = await this.supabaseService.getClient()
+            .from('orders')
+            .update({ payment_status: paymentStatus })
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) return null;
+        return data;
     }
 
     private generateOrderNumber(): string {
@@ -52,3 +89,4 @@ export class OrdersService {
         return `NM-${timestamp}-${random}`;
     }
 }
+

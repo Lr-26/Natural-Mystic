@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import { getProducts, type Product } from '../services/product.service';
+import { products as fallbackProducts } from '../data/products';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Sparkles } from 'lucide-react';
 
@@ -8,30 +9,44 @@ const categories = [
     {
         id: 'velas',
         name: 'Velas de Soja',
-        image: '/images/cat-candles.jpg', // Dark Candle Close-up (Reliable)
+        image: '/images/cat-candles.jpg', 
         filter: 'velas',
-        description: 'Luz natural y aromas sagrados'
+        description: 'Luz natural y aromas sagrados para tus espacios'
     },
     {
         id: 'sahumerios',
         name: 'Sahumerios',
-        image: '/images/cat-incense.jpg', // Incense stick & smoke (Reliable)
+        image: '/images/cat-incense.jpg', 
         filter: 'sahumerios',
-        description: 'Limpieza y elevación energética'
+        description: 'Limpieza, elevación y armonía energética'
     },
     {
-        id: 'jabones',
-        name: 'Jabones Naturales',
-        image: '/images/cat-soaps.jpg', // Soap Stack (Reliable)
-        filter: 'jabones',
-        description: 'Pureza botánica para tu piel'
+        id: 'alquimia',
+        name: 'Alquimia Sagrada',
+        image: '/images/cat-alchemy.png', 
+        filter: 'alquimia',
+        description: 'Pociones y elixires para el alma'
     },
     {
-        id: 'oleos',
-        name: 'Bálsamos & Óleos',
-        image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=1200',
+        id: 'cristales',
+        name: 'Cristales & Piedras',
+        image: '/images/cat-crystals.png', 
+        filter: 'cristales',
+        description: 'Tesoros de la tierra con propósitos curativos'
+    },
+    {
+        id: 'esencias',
+        name: 'Esencias Puras',
+        image: '/images/cat-essences.png', 
+        filter: 'esencias',
+        description: 'Concentrados botánicos para rituales profundos'
+    },
+    {
+        id: 'corporal',
+        name: 'Cosmética Natural',
+        image: '/images/cat-creams.jpg',
         filter: 'cremas',
-        description: 'Nutrición botánica y elixires del desierto'
+        description: 'Nutrición botánica y cuidado consciente'
     }
 ];
 
@@ -43,10 +58,23 @@ const ProductGrid = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const data = await getProducts();
-                setProducts(data);
+                const apiData = await getProducts();
+                // Si el API devuelve pocos productos o data vieja, mezclamos con el fallback local
+                // Usamos un Map para evitar duplicados por nombre
+                const allProductsMap = new Map();
+                
+                // Primero el fallback (asegura que las nuevas categorías tengan algo)
+                fallbackProducts.forEach(p => allProductsMap.set(p.name, p));
+                
+                // Luego el API (sobrescribe si hay coincidencia de nombre)
+                if (apiData && apiData.length > 0) {
+                    apiData.forEach(p => allProductsMap.set(p.name, p));
+                }
+                
+                setProducts(Array.from(allProductsMap.values()));
             } catch (error) {
-                console.error('Error fetching products:', error);
+                console.error('Error fetching products, using fallback:', error);
+                setProducts(fallbackProducts as any);
             } finally {
                 setLoading(false);
             }
@@ -59,13 +87,6 @@ const ProductGrid = () => {
         ? products.filter(p => {
             const cat = p.category?.toLowerCase() || '';
             const filter = selectedCategory.toLowerCase();
-
-            // Smart mapping for our new fancy categories
-            if (filter === 'corporal') return cat.includes('jabon') || cat.includes('corporal') || cat.includes('cuerpo');
-            if (filter === 'facial') return cat.includes('facial') || cat.includes('rostro') || cat.includes('serum') || cat.includes('crema');
-            if (filter === 'aroma') return cat.includes('sahumerio') || cat.includes('aroma') || cat.includes('vela');
-            if (filter === 'kits') return cat.includes('kit') || cat.includes('regalo');
-
             return cat.includes(filter);
         })
         : products;

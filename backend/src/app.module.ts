@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
@@ -9,6 +8,9 @@ import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { OrdersModule } from './orders/orders.module';
+import { PaymentsModule } from './payments/payments.module';
+import { SupabaseModule } from './supabase/supabase.module';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
@@ -19,20 +21,18 @@ import { OrdersModule } from './orders/orders.module';
       rootPath: join(__dirname, '..', '..', 'dist'),
       exclude: ['/api/:path*'],
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
-      inject: [ConfigService],
-    }),
     ProductsModule,
     UsersModule,
     AuthModule,
     OrdersModule,
+    PaymentsModule,
+    SupabaseModule,
+    ContactModule,
   ],
+
 
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule { }
+

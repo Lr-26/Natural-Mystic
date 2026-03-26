@@ -18,7 +18,8 @@ export class AuthController {
     @ApiOperation({ summary: 'Registrar un nuevo usuario' })
     @ApiResponse({ status: 201, description: 'Usuario registrado exitosamente' })
     async register(@Body() body: any) {
-        return this.usersService.create(body.email, body.password);
+        const { email, password, ...extraData } = body;
+        return this.usersService.create(email, password, extraData);
     }
 
     @Post('login')

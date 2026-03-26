@@ -12,6 +12,10 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [comment, setComment] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
@@ -29,7 +33,13 @@ const Login = () => {
 
         try {
             if (isRegister) {
-                await apiRegister(email, password);
+                // Registro con datos profesionales extra
+                await apiRegister(email, password, { 
+                    name: `${name} ${lastName}`, 
+                    phone, 
+                    professional_comment: comment 
+                });
+                
                 // Auto-login after registration
                 const data = await apiLogin(email, password);
                 login(data.user);
@@ -38,7 +48,9 @@ const Login = () => {
                     navigate('/admin');
                 } else {
                     navigate('/');
-                    toast.success('¡Cuenta creada con éxito! Bienvenido a la tribu. 🌿');
+                    toast.success('¡Bienvenido a la tribu Natural Mystic! 🌿', {
+                        description: 'Tu cuenta profesional ha sido creada con éxito.'
+                    });
                 }
             } else {
                 const data = await apiLogin(email, password);
@@ -105,8 +117,78 @@ const Login = () => {
                 </AnimatePresence>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    <AnimatePresence>
+                        {isRegister && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="space-y-4 mb-4 overflow-hidden"
+                            >
+                                <div className="grid grid-cols-2 gap-4">
+                                    {/* Nombre */}
+                                    <div>
+                                        <label className="block text-[10px] font-montserrat font-bold text-desert-primary uppercase tracking-widest mb-1 px-1">Nombre</label>
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                required
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)}
+                                                className="w-full pl-4 pr-4 py-3 bg-desert-bg/5 border border-desert-accent/20 focus:outline-none focus:border-desert-primary transition-colors font-montserrat text-sm"
+                                                placeholder="Luz"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Apellido */}
+                                    <div>
+                                        <label className="block text-[10px] font-montserrat font-bold text-desert-primary uppercase tracking-widest mb-1 px-1">Apellido</label>
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                required
+                                                value={lastName}
+                                                onChange={(e) => setLastName(e.target.value)}
+                                                className="w-full pl-4 pr-4 py-3 bg-desert-bg/5 border border-desert-accent/20 focus:outline-none focus:border-desert-primary transition-colors font-montserrat text-sm"
+                                                placeholder="Mística"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Teléfono */}
+                                <div>
+                                    <label className="block text-[10px] font-montserrat font-bold text-desert-primary uppercase tracking-widest mb-1 px-1">Teléfono</label>
+                                    <div className="relative">
+                                        <input
+                                            type="tel"
+                                            required
+                                            value={phone}
+                                            onChange={(e) => setPhone(e.target.value)}
+                                            className="w-full pl-4 pr-4 py-3 bg-desert-bg/5 border border-desert-accent/20 focus:outline-none focus:border-desert-primary transition-colors font-montserrat text-sm"
+                                            placeholder="+54 9..."
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Comentario Profesional */}
+                                <div>
+                                    <label className="block text-[10px] font-montserrat font-bold text-desert-primary uppercase tracking-widest mb-1 px-1">Comentario Profesional</label>
+                                    <textarea
+                                        value={comment}
+                                        onChange={(e) => setComment(e.target.value)}
+                                        rows={2}
+                                        className="w-full pl-4 pr-4 py-2 bg-desert-bg/5 border border-desert-accent/20 focus:outline-none focus:border-desert-primary transition-colors font-montserrat text-sm"
+                                        placeholder="Tu visión mística..."
+                                    />
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
                     <div>
-                        <label className="block text-xs font-montserrat font-bold text-desert-primary uppercase tracking-widest mb-2">Email</label>
+                        <label className="block text-xs font-montserrat font-bold text-desert-primary uppercase tracking-widest mb-2 px-1">Email</label>
                         <div className="relative">
                             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-desert-accent/50" size={18} />
                             <input

@@ -24,7 +24,7 @@ export interface CreateOrderData {
     total: number;
     shippingAddress: ShippingAddress;
     email: string;
-    paymentMethod: 'card' | 'transfer' | 'cash' | 'mercadopago';
+    paymentMethod: 'card' | 'transfer' | 'cash' | 'mercadopago' | 'polar';
     userId?: string;
     notes?: string;
 }

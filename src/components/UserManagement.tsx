@@ -6,6 +6,9 @@ interface User {
     id: string;
     email: string;
     role: string;
+    name?: string;
+    phone?: string;
+    professional_comment?: string;
     createdAt?: string;
 }
 
@@ -109,62 +112,77 @@ const UserManagement: React.FC<UserManagementProps> = ({ token }) => {
 
             <div className="bg-white border border-desert-accent/10 shadow-sm overflow-x-auto">
                 <table className="w-full text-left font-montserrat">
-                    <thead className="bg-desert-secondary/5 border-b border-desert-accent/10">
+                    <thead className="bg-desert-bg/30 border-b border-desert-accent/10">
                         <tr>
-                            <th className="p-4 text-xs font-bold uppercase tracking-widest text-desert-primary">Email</th>
-                            <th className="p-4 text-xs font-bold uppercase tracking-widest text-desert-primary">Rol</th>
-                            <th className="p-4 text-xs font-bold uppercase tracking-widest text-desert-primary">Fecha Registro</th>
-                            <th className="p-4 text-xs font-bold uppercase tracking-widest text-desert-primary text-right">Acciones</th>
+                            <th className="p-6 text-[10px] uppercase tracking-widest font-bold text-desert-primary">Identidad</th>
+                            <th className="p-6 text-[10px] uppercase tracking-widest font-bold text-desert-primary">Contacto</th>
+                            <th className="p-6 text-[10px] uppercase tracking-widest font-bold text-desert-primary">Rol</th>
+                            <th className="p-6 text-[10px] uppercase tracking-widest font-bold text-desert-primary">Visión (Mensaje)</th>
+                            <th className="p-6 text-[10px] uppercase tracking-widest font-bold text-desert-primary text-right">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-desert-accent/5">
                         {loading ? (
                             <tr>
-                                <td colSpan={4} className="p-12 text-center text-desert-text italic">
-                                    Cargando usuarios...
+                                <td colSpan={5} className="p-12 text-center text-desert-text italic">
+                                    Invocando a la tribu...
                                 </td>
                             </tr>
                         ) : users.length === 0 ? (
                             <tr>
-                                <td colSpan={4} className="p-12 text-center text-desert-text italic">
-                                    No hay usuarios registrados
+                                <td colSpan={5} className="p-12 text-center text-desert-text italic">
+                                    No hay almas registradas aún.
                                 </td>
                             </tr>
                         ) : (
                             users.map((user) => (
                                 <tr
                                     key={user.id}
-                                    className="border-b border-desert-accent/5 hover:bg-desert-bg/5 transition-colors"
+                                    className="hover:bg-desert-bg/10 transition-colors group"
                                 >
-                                    <td className="p-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="text-sm font-medium text-desert-primary">{user.email}</div>
+                                    <td className="p-6">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full bg-desert-primary/10 flex items-center justify-center text-desert-primary font-bold border border-desert-accent/20">
+                                                {user.name?.charAt(0) || user.email.charAt(0).toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <div className="font-cinzel font-bold text-desert-primary">{user.name || 'Anónimo'}</div>
+                                                <div className="text-[10px] text-desert-text/60 font-montserrat">{user.email}</div>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td className="p-4">
+                                    <td className="p-6">
+                                        <div className="text-xs font-montserrat text-desert-primary">{user.phone || 'No provisto'}</div>
+                                        <div className="text-[9px] text-desert-accent/60 uppercase tracking-tighter">{formatDate(user.createdAt)}</div>
+                                    </td>
+                                    <td className="p-6">
                                         <span
-                                            className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${user.role === 'admin'
-                                                ? 'bg-desert-accent/10 text-desert-accent'
-                                                : 'bg-gray-100 text-gray-600'
+                                            className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider ${user.role === 'admin'
+                                                ? 'bg-desert-accent text-desert-primary shadow-sm'
+                                                : 'bg-desert-primary/5 text-desert-primary border border-desert-accent/10'
                                                 }`}
                                         >
-                                            {user.role === 'admin' ? <Shield size={12} /> : <User size={12} />}
+                                            {user.role === 'admin' ? <Shield size={10} /> : <User size={10} />}
                                             {user.role}
                                         </span>
                                     </td>
-                                    <td className="p-4 text-sm text-desert-text">{formatDate(user.createdAt)}</td>
-                                    <td className="p-4 text-right">
-                                        <div className="flex justify-end gap-2">
+                                    <td className="p-6">
+                                        <div className="text-xs text-desert-text italic max-w-xs line-clamp-2 hover:line-clamp-none transition-all cursor-help border-l-2 border-desert-accent/20 pl-3">
+                                            {user.professional_comment || 'Sin mensaje profesional'}
+                                        </div>
+                                    </td>
+                                    <td className="p-6 text-right">
+                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <button
                                                 onClick={() => handleRoleToggle(user.id, user.role)}
-                                                className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-desert-primary/10 text-desert-primary hover:bg-desert-primary hover:text-white rounded-sm transition-all"
+                                                className="p-2 text-desert-accent hover:bg-desert-accent/10 rounded-lg transition-all"
                                                 title={`Cambiar a ${user.role === 'admin' ? 'user' : 'admin'}`}
                                             >
-                                                {user.role === 'admin' ? 'Quitar Admin' : 'Hacer Admin'}
+                                                <Shield size={18} />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(user.id, user.email)}
-                                                className="p-2 text-red-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
+                                                className="p-2 text-red-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
                                                 title="Eliminar usuario"
                                             >
                                                 <Trash2 size={18} />

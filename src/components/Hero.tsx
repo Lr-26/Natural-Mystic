@@ -1,107 +1,108 @@
-import { motion, useScroll, useTransform, useMotionValue, useSpring, MotionValue } from 'framer-motion';
-import { useRef, useState, useEffect, memo } from 'react';
-
-// Specialized Particle Component for High Performance
-const Particle = memo(({ p, springX, springY }: { p: any, springX: MotionValue<number>, springY: MotionValue<number> }) => {
-    // We calculate the individual offset using influence
-    const x = useTransform(springX, (val) => val * p.influence);
-    const y = useTransform(springY, (val) => val * p.influence);
-
-    return (
-        <motion.div
-            className="particle"
-            style={{
-                left: p.left,
-                top: p.top,
-                width: p.size,
-                height: p.size,
-                x,
-                y
-            }}
-            animate={{
-                y: [0, -1200],
-                opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-                duration: p.duration,
-                repeat: Infinity,
-                delay: -p.delay,
-                ease: "linear",
-            }}
-        />
-    );
-});
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useEffect } from 'react';
 
 const Hero = () => {
-    const ref = useRef(null);
+    const sectionRef = useRef<HTMLElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const mouseRef = useRef({ x: 0, y: 0 });
+
     const { scrollYProgress } = useScroll({
-        target: ref,
+        target: sectionRef,
         offset: ["start start", "end start"]
     });
 
     const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-    // Performance-optimized Mouse Tracking (Single source of truth)
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-    const springX = useSpring(mouseX, { damping: 50, stiffness: 100 });
-    const springY = useSpring(mouseY, { damping: 50, stiffness: 100 });
-
-    const handleMouseMove = (event: React.MouseEvent) => {
-        const { clientX, clientY } = event;
-        const moveX = (clientX - window.innerWidth / 2) / 12;
-        const moveY = (clientY - window.innerHeight / 2) / 12;
-        mouseX.set(moveX);
-        mouseY.set(moveY);
-    };
-
-    const [particles, setParticles] = useState<any[]>([]);
-    
     useEffect(() => {
-        const p = Array.from({ length: 350 }, (_, i) => ({
-            id: i,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            duration: 15 + Math.random() * 25,
-            delay: Math.random() * 20,
-            size: 0.5 + Math.random() * 3,
-            influence: 0.3 + Math.random() * 1.7
-        }));
-        setParticles(p);
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let animationFrameId: number;
+        let particles: any[] = [];
+        const particleCount = 800; // Aumentado a 800 para mayor inmersión
+
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        };
+
+        const initParticles = () => {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 3 + 1.5, // Más grandes: entre 1.5 y 4.5
+                    speed: Math.random() * 0.8 + 0.3, 
+                    opacity: Math.random() * 0.4 + 0.2,
+                    influence: Math.random() * 15 + 5
+                });
+            }
+        };
+
+        const draw = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => {
+                p.y -= p.speed;
+                if (p.y < -10) p.y = canvas.height + 10;
+
+                const dx = (mouseRef.current.x - canvas.width / 2) / p.influence;
+                const dy = (mouseRef.current.y - canvas.height / 2) / p.influence;
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                ctx.shadowBlur = 4;
+                ctx.shadowColor = "rgba(255, 255, 255, 0.4)";
+                ctx.beginPath();
+                ctx.arc(p.x + dx, p.y + dy, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            animationFrameId = requestAnimationFrame(draw);
+        };
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        draw();
+
+        return () => {
+            window.removeEventListener('resize', resizeCanvas);
+            cancelAnimationFrame(animationFrameId);
+        };
     }, []);
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        mouseRef.current = { x: e.clientX, y: e.clientY };
+    };
 
     return (
         <section 
-            ref={ref} 
+            ref={sectionRef} 
             onMouseMove={handleMouseMove}
             className="relative h-screen flex flex-col justify-center items-center overflow-hidden bg-desert-bg"
         >
-            {/* Background Image with Parallax */}
-            <motion.div 
-                style={{ y: backgroundY }}
-                className="absolute inset-0 z-0 scale-110"
-            >
+            {/* Parallax Background */}
+            <motion.div style={{ y: backgroundY }} className="absolute inset-0 z-0 scale-110">
                 <img
                     src="https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&q=80&w=2500"
-                    alt="Mystical Desert Sunset"
-                    className="w-full h-full object-cover opacity-70"
+                    alt="Mystical Desert"
+                    className="w-full h-full object-cover opacity-60"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-desert-bg" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-desert-bg" />
             </motion.div>
 
-            {/* Optimized Magnetic Particles System */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden h-full w-full">
-                {particles.map((p) => (
-                    <Particle key={p.id} p={p} springX={springX} springY={springY} />
-                ))}
-            </div>
+            {/* High-Performance Canvas for Particles */}
+            <canvas
+                ref={canvasRef}
+                className="absolute inset-0 z-[1] pointer-events-none"
+            />
 
-            {/* Content */}
-            <motion.div 
-                style={{ y: textY }}
-                className="relative z-10 text-center px-6 max-w-5xl mx-auto"
-            >
+            {/* Content Container */}
+            <motion.div style={{ y: textY }} className="relative z-10 text-center px-6 max-w-5xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -113,30 +114,30 @@ const Hero = () => {
                         Alquimia & Esencia Sagrada
                     </h2>
                     
-                    <h1 className="text-6xl tablet:text-7xl laptop:text-9xl font-cinzel text-white mb-8 tracking-[0.05em] font-bold leading-none text-gradient-mystic drop-shadow-2xl">
+                    <h1 className="text-6xl md:text-8xl font-cinzel text-white mb-8 tracking-[0.05em] font-bold leading-tight text-gradient-mystic shadow-2xl">
                         Natural <br/>Mystic
                     </h1>
                     
-                    <p className="font-montserrat text-sm tablet:text-base text-parchment/60 mb-12 max-w-2xl mx-auto leading-relaxed tracking-wider italic">
-                        "Rituales sagrados fusionados con la magia del desierto y botánicos puros para elevar tu espíritu."
+                    <p className="font-montserrat text-sm md:text-base text-parchment/60 mb-12 max-w-2xl mx-auto italic tracking-wider">
+                        "Rituales sagrados fusionados con la magia del desierto."
                     </p>
-
+                    
                     <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                        <motion.a
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                        <a
                             className="px-12 py-4 bg-desert-accent text-white font-cinzel tracking-[0.2em] font-bold hover:bg-white hover:text-desert-primary transition-all uppercase rounded-sm shadow-glow-accent"
                             href="#productos"
                         >
                             Ver Colección
-                        </motion.a>
+                        </a>
                     </div>
                 </motion.div>
             </motion.div>
 
-            <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_200px_rgba(0,0,0,0.8)] z-[5]" />
+            {/* Inset Shadow Overlay for Depth */}
+            <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_200px_rgba(0,0,0,0.9)] z-[5]" />
         </section>
     );
 };
 
 export default Hero;
+

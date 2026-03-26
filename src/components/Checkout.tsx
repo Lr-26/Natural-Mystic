@@ -5,6 +5,7 @@ import { CreditCard, Building2, Banknote, ShoppingBag, ArrowLeft, CheckCircle, L
 import { useCart } from '../context/CartContext';
 import { useAdmin } from '../context/AdminContext';
 import { createOrder, type CreateOrderData } from '../services/order.service';
+import { createMPPreference, createPolarCheckout } from '../services/payment.service';
 
 const Checkout = () => {
     const { cart: items, totalPrice: total, clearCart, removeFromCart } = useCart();
@@ -21,7 +22,7 @@ const Checkout = () => {
         city: '',
         province: '',
         postalCode: '',
-        paymentMethod: 'card' as 'card' | 'transfer' | 'cash' | 'mercadopago',
+        paymentMethod: 'card' as 'card' | 'transfer' | 'cash' | 'mercadopago' | 'polar',
         notes: '',
         cardNumber: '',
         cardName: '',
@@ -53,13 +54,7 @@ const Checkout = () => {
         } else {
             setLoading(true);
             try {
-                if (formData.paymentMethod === 'mercadopago') {
-                    // Simulate Mercado Pago redirection
-                    await new Promise(resolve => setTimeout(resolve, 2000)); // Fake network delay
-                    // Here we would redirect to MP URL. For now, we simulate success.
-                    // window.location.href = mp_payment_url;
-                }
-
+                // 1. Create the order first (to have an orderId)
                 const orderData: CreateOrderData = {
                     items: items.map(item => ({
                         productId: item._id || item.id || '',
@@ -68,7 +63,7 @@ const Checkout = () => {
                         quantity: item.quantity,
                         image: item.image
                     })),
-                    total: finalTotal, // Use final total with shipping
+                    total: finalTotal,
                     shippingAddress: {
                         fullName: formData.fullName,
                         phone: formData.phone,
@@ -85,10 +80,37 @@ const Checkout = () => {
 
                 const order = await createOrder(orderData);
                 setOrderId(order._id);
+
+                if (formData.paymentMethod === 'mercadopago') {
+                    const preference = await createMPPreference({
+                        items: orderData.items as any,
+                        orderId: order._id
+                    });
+                    
+                    if (preference.init_point) {
+                        window.location.href = preference.init_point;
+                        return;
+                    }
+                }
+
+                // 2b. If Polar, create checkout and REDIRECT
+                if (formData.paymentMethod === 'polar') {
+                    const checkout = await createPolarCheckout({
+                        total: finalTotal,
+                        orderId: order._id
+                    });
+                    
+                    if (checkout.url) {
+                        window.location.href = checkout.url;
+                        return;
+                    }
+                }
+
+                // 3. For other methods, just show success step
                 clearCart();
                 setStep(3);
             } catch (error) {
-                console.error('Error creating order:', error);
+                console.error('Error processing order:', error);
                 toast.error('Hubo un error al procesar tu pedido. Por favor intenta nuevamente.');
             } finally {
                 setLoading(false);
@@ -131,7 +153,8 @@ const Checkout = () => {
                             <p><span className="font-bold">Método de Pago:</span> {
                                 formData.paymentMethod === 'card' ? 'Tarjeta' :
                                     formData.paymentMethod === 'mercadopago' ? 'Mercado Pago' :
-                                        formData.paymentMethod === 'transfer' ? 'Transferencia' : 'Efectivo'
+                                        formData.paymentMethod === 'polar' ? 'Polar' :
+                                            formData.paymentMethod === 'transfer' ? 'Transferencia' : 'Efectivo'
                             }</p>
                         </div>
                     </div>
@@ -161,6 +184,13 @@ const Checkout = () => {
                         <div className="bg-blue-50 border border-blue-200 p-6 rounded-sm mb-6">
                             <h3 className="font-cinzel text-lg text-blue-900 mb-2">Pago con Mercado Pago</h3>
                             <p className="text-sm text-blue-800">Tu pago ha sido procesado exitosamente.</p>
+                        </div>
+                    )}
+
+                    {formData.paymentMethod === 'polar' && (
+                        <div className="bg-indigo-50 border border-indigo-200 p-6 rounded-sm mb-6">
+                            <h3 className="font-cinzel text-lg text-indigo-900 mb-2">Pago con Polar</h3>
+                            <p className="text-sm text-indigo-800">Tu pago ha sido procesado exitosamente mediante Polar.</p>
                         </div>
                     )}
 
@@ -290,6 +320,7 @@ const Checkout = () => {
                                         {[
                                             { id: 'card', icon: CreditCard, title: 'Tarjeta de Crédito/Débito', desc: 'Pago seguro con MercadoPago' },
                                             { id: 'mercadopago', icon: CreditCard, title: 'Mercado Pago', desc: 'Te redirigiremos a Mercado Pago' },
+                                            { id: 'polar', icon: ShoppingBag, title: 'Polar.sh', desc: 'Paga con Polar (Suscripciones y Productos)' },
                                             { id: 'transfer', icon: Building2, title: 'Transferencia Bancaria', desc: 'Te enviaremos los datos bancarios' },
                                             { id: 'cash', icon: Banknote, title: 'Efectivo Contra Entrega', desc: 'Paga al recibir tu pedido' }
                                         ].map(method => (

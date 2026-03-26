@@ -18,21 +18,21 @@ async function bootstrap() {
     app.use(helmet());
   }
 
-  // ONE PORT CONFIG: Proxy all frontend requests to Vite (5174)
-  if (process.env.NODE_ENV !== 'production') {
-    const { createProxyMiddleware } = require('http-proxy-middleware');
-    app.use((req, res, next) => {
-        // Only proxy if NOT starting with /api or /docs
-        if (req.url.startsWith('/api') || req.url.startsWith('/docs')) {
-          return next();
-        }
-        return createProxyMiddleware({
-          target: 'http://localhost:5174',
-          changeOrigin: true,
-          ws: true,
-        })(req, res, next);
-    });
-  }
+  // Always enable proxy in dev for these paths
+  const { createProxyMiddleware } = require('http-proxy-middleware');
+  app.use((req, res, next) => {
+    // Only proxy if NOT starting with /api or /docs
+    if (req.url.startsWith('/api') || req.url.startsWith('/docs')) {
+      return next();
+    }
+    // console.log(`Proxying request: ${req.url} -> http://localhost:5174`);
+    return createProxyMiddleware({
+      target: 'http://localhost:5174',
+      changeOrigin: true,
+      ws: true,
+      logLevel: 'debug',
+    })(req, res, next);
+  });
 
   app.enableCors({
     origin: '*', 
