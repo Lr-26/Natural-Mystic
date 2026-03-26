@@ -197,69 +197,86 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Sidebar (Drawer) */}
             <AnimatePresence>
                 {isMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="fixed inset-0 z-50 bg-desert-bg/98 backdrop-blur-2xl md:hidden flex flex-col items-center justify-center"
-                    >
-                        <button
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
                             onClick={() => setIsMenuOpen(false)}
-                            className="absolute top-6 right-6 p-2 text-desert-accent hover:text-white transition-colors"
+                            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm md:hidden"
+                        />
+
+                        {/* Drawer Content */}
+                        <motion.div
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            className="fixed top-0 right-0 bottom-0 z-[70] w-72 xs:w-80 bg-desert-bg/95 backdrop-blur-3xl border-l border-desert-accent/20 md:hidden flex flex-col shadow-2xl"
                         >
-                            <X size={32} />
-                        </button>
+                            <div className="p-6 flex justify-between items-center border-b border-white/5">
+                                <div className="flex flex-col">
+                                    <span className="font-cinzel text-xs font-bold tracking-widest text-white">Natural Mystic</span>
+                                </div>
+                                <button
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="p-2 text-desert-accent hover:text-white transition-colors"
+                                >
+                                    <X size={24} />
+                                </button>
+                            </div>
 
-                        <div className="px-8 py-8 space-y-8 text-center flex flex-col items-center">
-                            <a href="#historia" onClick={() => setIsMenuOpen(false)} className="block text-3xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase">Historia</a>
-                            <a href="#ingredientes" onClick={() => setIsMenuOpen(false)} className="block text-3xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase">Esencias</a>
-                            <a href="#productos" onClick={() => setIsMenuOpen(false)} className="block text-3xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase">Colección</a>
-                            
-                            <Link to="/factory" onClick={() => setIsMenuOpen(false)} className="relative px-10 py-4 bg-white/5 border border-desert-accent/30 rounded-full group">
-                                <span className="text-xl font-cinzel text-desert-accent group-hover:text-white transition-colors uppercase tracking-[0.2em] font-bold italic">Alquimia Tech</span>
-                                <div className="absolute inset-0 bg-desert-accent/10 blur-xl rounded-full opacity-50"></div>
-                            </Link>
+                            <div className="flex-1 overflow-y-auto px-8 py-10 space-y-8">
+                                <a href="#historia" onClick={() => setIsMenuOpen(false)} className="block text-xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase border-b border-white/5 pb-2">Historia</a>
+                                <a href="#ingredientes" onClick={() => setIsMenuOpen(false)} className="block text-xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase border-b border-white/5 pb-2">Esencias</a>
+                                <a href="#productos" onClick={() => setIsMenuOpen(false)} className="block text-xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase border-b border-white/5 pb-2">Colección</a>
+                                
+                                <Link to="/factory" onClick={() => setIsMenuOpen(false)} className="block">
+                                    <span className="text-lg font-cinzel text-desert-accent hover:text-white transition-colors uppercase tracking-[0.2em] font-bold italic">Alquimia Tech</span>
+                                </Link>
 
-                            <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="block text-3xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase">Contacto</a>
+                                <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="block text-xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase border-b border-white/5 pb-2">Contacto</a>
+                            </div>
 
-                            <div className="pt-12 mt-4 space-y-6 w-full max-w-xs flex flex-col items-center border-t border-white/5">
+                            <div className="p-8 border-t border-white/5 space-y-4">
                                 {user ? (
                                     <>
-                                        <div className="text-center mb-2">
-                                            <p className="text-[10px] text-desert-accent uppercase tracking-[0.3em] font-bold mb-1">Místico Identificado</p>
-                                            <p className="text-white/60 text-xs font-montserrat truncate">{user.email}</p>
+                                        <div>
+                                            <p className="text-[10px] text-desert-accent uppercase tracking-[0.3em] font-bold mb-1">Usuario</p>
+                                            <p className="text-white/60 text-[10px] font-montserrat truncate">{user.email}</p>
                                         </div>
                                         {isAdmin && (
                                             <Link 
                                                 to="/admin" 
                                                 onClick={() => setIsMenuOpen(false)} 
-                                                className="px-10 py-4 bg-desert-accent text-desert-primary font-cinzel uppercase tracking-[0.2em] text-xs font-black rounded-sm w-full shadow-glow-sm"
+                                                className="block px-6 py-3 bg-desert-accent/20 border border-desert-accent/30 text-white text-center font-cinzel uppercase tracking-[0.2em] text-[10px] font-bold rounded-sm"
                                             >
                                                 Panel Admin
                                             </Link>
                                         )}
                                         <button
                                             onClick={handleLogout}
-                                            className="text-[10px] tracking-[0.3em] uppercase font-bold text-red-400 opacity-60 hover:opacity-100 transition-opacity"
+                                            className="w-full text-[10px] tracking-[0.3em] uppercase font-bold text-red-400 opacity-60 text-left"
                                         >
-                                            Cerrar Sesión
+                                            Salir
                                         </button>
                                     </>
                                 ) : (
                                     <a
                                         href="#contacto"
                                         onClick={() => setIsMenuOpen(false)}
-                                        className="px-12 py-5 bg-white text-desert-primary font-cinzel uppercase tracking-[0.3em] text-sm font-black shadow-2xl w-full text-center rounded-sm"
+                                        className="block px-10 py-4 bg-white text-desert-primary font-cinzel uppercase tracking-[0.3em] text-[10px] font-black text-center rounded-sm"
                                     >
                                         Entrar
                                     </a>
                                 )}
                             </div>
-                        </div>
-                    </motion.div>
+                        </motion.div>
+                    </>
                 )}
             </AnimatePresence>
         </motion.nav >
