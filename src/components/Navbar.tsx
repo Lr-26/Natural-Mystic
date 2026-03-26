@@ -102,10 +102,6 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                             <div className="hidden absolute inset-0 flex items-center justify-center bg-desert-primary/10 rounded-full">
                                 <Sparkles className="text-desert-accent" size={18} />
                             </div>
-
-                            <div className="absolute -top-1 -right-1 bg-desert-accent rounded-full p-0.5 shadow-lg">
-                                <Sparkles className="text-desert-primary" size={8} />
-                            </div>
                         </motion.div>
                         <div className="flex flex-col">
                             <span className="font-cinzel text-lg font-bold tracking-[0.2em] uppercase leading-none text-white text-gradient-mystic">
@@ -117,87 +113,39 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                         </div>
                     </Link>
 
-                    {/* Desktop Menu */}
-                    <div className="hidden md:flex items-center space-x-10">
-                        <a href="/#historia" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-parchment/70 hover:text-white transition-colors">Historia</a>
-                        <a href="/#ingredientes" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-parchment/70 hover:text-white transition-colors">Esencias</a>
-                        <a href="/#productos" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-parchment/70 hover:text-white transition-colors">Colección</a>
-                        
-                        <Link to="/factory" className="relative group px-6 py-2 overflow-hidden rounded-full">
-                            <div className="absolute inset-0 bg-gradient-to-r from-desert-accent/20 to-desert-primary/20 group-hover:from-desert-accent/40 group-hover:to-desert-primary/40 transition-all duration-500"></div>
-                            <span className="relative z-10 text-[10px] tracking-[0.3em] uppercase font-black text-white group-hover:text-white transition-colors">Alquimia</span>
-                            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-desert-accent to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-                        </Link>
-
-                        <a href="/#contacto" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-parchment/70 hover:text-white transition-colors">Contacto</a>
-
-                        <div className="h-4 w-[1px] bg-white/10 mx-2"></div>
-
-                        {user ? (
-                            <div className="flex items-center gap-6">
-                                {isAdmin ? (
-                                    <Link to="/admin" className="relative group">
-                                        <span className="text-[10px] tracking-[0.2em] font-cinzel text-white uppercase group-hover:text-desert-accent transition-colors">Panel Admin</span>
-                                        <div className="absolute -bottom-1 left-0 w-full h-[1px] bg-desert-accent transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
-                                    </Link>
-                                ) : (
-                                    <button
-                                        onClick={handleLogout}
-                                        className="text-[10px] tracking-widest uppercase font-bold text-parchment/60 hover:text-white transition-colors"
-                                    >
-                                        Salir
-                                    </button>
-                                )}
-                            </div>
-                        ) : (
-                            <a
-                                href="#contacto"
-                                className="group flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase font-bold text-white/80 hover:text-white transition-all"
-                            >
-                                <div className="w-1.5 h-1.5 rounded-full bg-desert-accent animate-pulse"></div>
-                                Entrar
-                            </a>
-                        )}
+                    {/* Desktop/Mobile Right Actions */}
+                    <div className="flex items-center gap-4">
+                        {/* Desktop Links (Hidden on small mobile) */}
+                        <div className="hidden lg:flex items-center space-x-8 mr-6">
+                            <a href="/#historia" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Historia</a>
+                            <a href="/#productos" className="nav-link-mystic text-[10px] tracking-[0.25em] uppercase font-bold text-white/90">Colección</a>
+                        </div>
 
                         <motion.button
-                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={onOpenCart}
-                            className="relative p-2.5 bg-white/5 hover:bg-white/10 rounded-full text-desert-accent hover:text-white transition-all border border-white/5"
+                            className="relative p-2.5 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all border border-white/20"
                         >
-                            <ShoppingCart size={18} />
+                            <ShoppingCart size={20} />
                             {itemCount > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-desert-accent text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-glow-sm">
+                                <span className="absolute -top-1 -right-1 bg-desert-accent text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
                                     {itemCount}
                                 </span>
                             )}
                         </motion.button>
-                    </div>
-
-                    {/* Mobile Toggle */}
-                    <div className="md:hidden flex items-center gap-4">
-                        <button 
-                            onClick={onOpenCart} 
-                            className="relative p-2 text-white/80 hover:text-white"
-                        >
-                            <ShoppingCart size={22} />
-                            {itemCount > 0 && (
-                                <span className="absolute -top-0.5 -right-0.5 bg-desert-accent text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                                    {itemCount}
-                                </span>
-                            )}
-                        </button>
+                        
                         <button 
                             onClick={() => setIsMenuOpen(!isMenuOpen)} 
-                            className="p-2 text-white/80 hover:text-white transform active:scale-90 transition-transform"
+                            className="p-2.5 bg-desert-accent text-desert-primary rounded-full hover:bg-white transition-colors shadow-lg"
                         >
-                            {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
+                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
                     </div>
                 </div>
             </div>
 
-            {/* Mobile Sidebar (Drawer) */}
+            {/* Side Sidebar (Drawer) - Full Height */}
             <AnimatePresence>
                 {isMenuOpen && (
                     <>
@@ -207,7 +155,7 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsMenuOpen(false)}
-                            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm md:hidden"
+                            className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-md"
                         />
 
                         {/* Drawer Content */}
@@ -216,64 +164,71 @@ const Navbar = ({ onOpenCart }: { onOpenCart: () => void }) => {
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed top-0 right-0 bottom-0 z-[70] w-72 xs:w-80 bg-desert-bg/95 backdrop-blur-3xl border-l border-desert-accent/20 md:hidden flex flex-col shadow-2xl"
+                            className="fixed top-0 right-0 bottom-0 z-[70] w-80 sm:w-96 bg-[#0c0908] border-l border-desert-accent/30 flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.9)]"
                         >
-                            <div className="p-6 flex justify-between items-center border-b border-white/5">
-                                <div className="flex flex-col">
-                                    <span className="font-cinzel text-xs font-bold tracking-widest text-white">Natural Mystic</span>
-                                </div>
+                            <div className="p-8 flex justify-between items-center border-b border-white/5">
+                                <h2 className="font-cinzel text-xl text-gradient-mystic tracking-widest uppercase font-bold">Menú Sagrado</h2>
                                 <button
                                     onClick={() => setIsMenuOpen(false)}
-                                    className="p-2 text-desert-accent hover:text-white transition-colors"
+                                    className="p-2 text-desert-accent hover:text-white"
                                 >
-                                    <X size={24} />
+                                    <X size={28} />
                                 </button>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto px-8 py-10 space-y-8">
-                                <a href="#historia" onClick={() => setIsMenuOpen(false)} className="block text-xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase border-b border-white/5 pb-2">Historia</a>
-                                <a href="#ingredientes" onClick={() => setIsMenuOpen(false)} className="block text-xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase border-b border-white/5 pb-2">Esencias</a>
-                                <a href="#productos" onClick={() => setIsMenuOpen(false)} className="block text-xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase border-b border-white/5 pb-2">Colección</a>
+                            <div className="flex-1 overflow-y-auto px-10 py-12 space-y-10">
+                                <a href="#historia" onClick={() => setIsMenuOpen(false)} className="block text-2xl font-cinzel text-white hover:text-desert-accent transition-all tracking-[0.2em] uppercase border-b border-white/2">Historia</a>
+                                <a href="#ingredientes" onClick={() => setIsMenuOpen(false)} className="block text-2xl font-cinzel text-white hover:text-desert-accent transition-all tracking-[0.2em] uppercase border-b border-white/2">Esencias</a>
+                                <a href="#productos" onClick={() => setIsMenuOpen(false)} className="block text-2xl font-cinzel text-white hover:text-desert-accent transition-all tracking-[0.2em] uppercase border-b border-white/2">Colección</a>
                                 
-                                <Link to="/factory" onClick={() => setIsMenuOpen(false)} className="block">
-                                    <span className="text-lg font-cinzel text-desert-accent hover:text-white transition-colors uppercase tracking-[0.2em] font-bold italic">Alquimia Tech</span>
+                                <Link to="/factory" onClick={() => setIsMenuOpen(false)} className="block group">
+                                    <div className="p-4 bg-desert-accent/5 border border-desert-accent/20 rounded-sm group-hover:bg-desert-accent/10 transition-colors">
+                                        <span className="text-xl font-cinzel text-desert-accent uppercase tracking-[0.2em] font-black italic">Alquimia Tech</span>
+                                        <p className="text-[10px] text-white/40 mt-1 uppercase tracking-widest font-bold">Transformación Digital</p>
+                                    </div>
                                 </Link>
 
-                                <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="block text-xl font-cinzel text-parchment hover:text-desert-accent transition-colors tracking-widest uppercase border-b border-white/5 pb-2">Contacto</a>
+                                <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="block text-2xl font-cinzel text-white hover:text-desert-accent transition-all tracking-[0.2em] uppercase border-b border-white/2">Contacto</a>
                             </div>
 
-                            <div className="p-8 border-t border-white/5 space-y-4">
+                            <div className="p-10 border-t border-white/5 bg-black/40 space-y-6">
                                 {user ? (
                                     <>
-                                        <div>
-                                            <p className="text-[10px] text-desert-accent uppercase tracking-[0.3em] font-bold mb-1">Usuario</p>
-                                            <p className="text-white/60 text-[10px] font-montserrat truncate">{user.email}</p>
+                                        <div className="flex items-center gap-4 p-4 border border-white/5 rounded-sm bg-white/5">
+                                            <div className="w-10 h-10 rounded-full bg-desert-accent/20 flex items-center justify-center text-desert-accent font-cinzel font-bold">
+                                                {user.email?.charAt(0).toUpperCase()}
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-[9px] text-desert-accent uppercase tracking-[0.3em] font-bold">Identidad Mística</span>
+                                                <span className="text-white/80 text-xs font-montserrat truncate max-w-[150px]">{user.email}</span>
+                                            </div>
                                         </div>
                                         {isAdmin && (
                                             <Link 
                                                 to="/admin" 
                                                 onClick={() => setIsMenuOpen(false)} 
-                                                className="block px-6 py-3 bg-desert-accent/20 border border-desert-accent/30 text-white text-center font-cinzel uppercase tracking-[0.2em] text-[10px] font-bold rounded-sm"
+                                                className="block px-8 py-4 bg-desert-accent text-desert-primary text-center font-cinzel uppercase tracking-[0.2em] text-xs font-black shadow-glow-sm"
                                             >
-                                                Panel Admin
+                                                Panel de Control
                                             </Link>
                                         )}
                                         <button
                                             onClick={handleLogout}
-                                            className="w-full text-[10px] tracking-[0.3em] uppercase font-bold text-red-400 opacity-60 text-left"
+                                            className="w-full py-2 text-[10px] tracking-[0.4em] uppercase font-bold text-red-500/60 hover:text-red-500 transition-colors text-center"
                                         >
-                                            Salir
+                                            Cerrar Círculo
                                         </button>
                                     </>
                                 ) : (
                                     <a
                                         href="#contacto"
                                         onClick={() => setIsMenuOpen(false)}
-                                        className="block px-10 py-4 bg-white text-desert-primary font-cinzel uppercase tracking-[0.3em] text-[10px] font-black text-center rounded-sm"
+                                        className="block px-10 py-5 bg-white text-desert-primary font-cinzel uppercase tracking-[0.3em] text-sm font-black text-center shadow-[0_0_30px_rgba(255,255,255,0.1)]"
                                     >
-                                        Entrar
+                                        Iniciar Alquimia
                                     </a>
                                 )}
+                                <div className="text-[9px] text-white/20 text-center uppercase tracking-[0.5em] pt-4">© 2026 Natural Mystic</div>
                             </div>
                         </motion.div>
                     </>
