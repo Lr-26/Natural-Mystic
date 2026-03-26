@@ -4,7 +4,6 @@ import { useRef, useEffect } from 'react';
 const Hero = () => {
     const sectionRef = useRef<HTMLElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const mouseRef = useRef({ x: 0, y: 0 });
 
     const { scrollYProgress } = useScroll({
         target: sectionRef,
@@ -48,17 +47,24 @@ const Hero = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             particles.forEach(p => {
+                // Movimiento constante hacia arriba
                 p.y -= p.speed;
-                if (p.y < -10) p.y = canvas.height + 10;
+                
+                // Pequeño desplazamiento horizontal aleatorio para realismo (efecto ascuas)
+                p.x += Math.sin(p.y / 50) * 0.5;
 
-                const dx = (mouseRef.current.x - canvas.width / 2) / p.influence;
-                const dy = (mouseRef.current.y - canvas.height / 2) / p.influence;
+                // Reposicionar cuando salen de la pantalla
+                if (p.y < -10) {
+                    p.y = canvas.height + 10;
+                    p.x = Math.random() * canvas.width;
+                }
 
                 ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
                 ctx.shadowBlur = 4;
                 ctx.shadowColor = "rgba(255, 255, 255, 0.4)";
                 ctx.beginPath();
-                ctx.arc(p.x + dx, p.y + dy, p.size, 0, Math.PI * 2);
+                // Dibujamos sin el offset del mouse para que solo suban
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fill();
             });
 
@@ -75,14 +81,9 @@ const Hero = () => {
         };
     }, []);
 
-    const handleMouseMove = (e: React.MouseEvent) => {
-        mouseRef.current = { x: e.clientX, y: e.clientY };
-    };
-
     return (
         <section 
             ref={sectionRef} 
-            onMouseMove={handleMouseMove}
             className="relative h-screen flex flex-col justify-center items-center overflow-hidden bg-desert-bg"
         >
             {/* Parallax Background */}
