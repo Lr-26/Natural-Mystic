@@ -89,8 +89,8 @@ const Hero = () => {
             {/* Parallax Background */}
             <motion.div style={{ y: backgroundY }} className="absolute inset-0 z-0 scale-110">
                 <img
-                    src="https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&q=80&w=2500"
-                    alt="Mystical Desert"
+                    src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2500"
+                    alt="Mystical Nature Forest"
                     className="w-full h-full object-cover opacity-60"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-desert-bg" />
