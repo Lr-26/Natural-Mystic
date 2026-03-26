@@ -43,7 +43,7 @@ const Home = () => {
             {/* HISTORIA - Background: Mystic Smoke/Incense */}
             <motion.div
                 id="historia"
-                className="relative py-24 md:py-32 border-y border-desert-accent/20"
+                className="relative py-16 md:py-32 border-y border-desert-accent/20"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
@@ -58,9 +58,9 @@ const Home = () => {
                     <div className="absolute inset-0 bg-black/60" />
                 </div>
 
-                <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-                    <h2 className="text-desert-accent font-montserrat tracking-[0.2em] uppercase text-xs mb-3 italic font-bold">Tradición & Alma</h2>
-                    <h3 className="text-3xl md:text-5xl font-cinzel text-white mb-8 tracking-widest uppercase font-bold drop-shadow-lg">Nuestra Historia</h3>
+                <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-4 text-center">
+                    <h2 className="text-desert-accent font-montserrat tracking-[0.2em] uppercase text-[10px] md:text-xs mb-3 italic font-bold">Tradición & Alma</h2>
+                    <h3 className="text-2xl md:text-5xl font-cinzel text-white mb-6 md:mb-8 tracking-widest uppercase font-bold drop-shadow-lg leading-tight">Nuestra Historia</h3>
                     <p className="font-montserrat text-lg md:text-xl text-parchment/90 leading-relaxed font-normal">
                         "En Natural Mystic, creemos que el cuidado personal es un ritual sagrado. Cada jabón es vertido a mano durante las fases lunares óptimas, utilizando botánicos recolectados de forma sostenible y aceites esenciales puros."
                     </p>
@@ -117,11 +117,11 @@ const Home = () => {
                     <div className="absolute inset-0 bg-black/70" />
                 </div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-4">
-                    <motion.div variants={fadeInUp} className="text-center mb-16">
-                        <span className="text-desert-accent font-montserrat tracking-[0.3em] uppercase text-xs font-bold">Puro & Potente</span>
-                        <h2 className="text-3xl md:text-5xl font-cinzel text-white mt-2 mb-4 font-bold drop-shadow-md">Ingredientes Maestros</h2>
-                        <div className="w-24 h-0.5 bg-desert-accent/50 mx-auto"></div>
+                <div className="relative z-10 max-w-7xl mx-auto px-6">
+                    <motion.div variants={fadeInUp} className="text-center mb-12 md:mb-16">
+                        <span className="text-desert-accent font-montserrat tracking-[0.3em] uppercase text-[10px] md:text-xs font-bold">Puro & Potente</span>
+                        <h2 className="text-2xl md:text-5xl font-cinzel text-white mt-2 mb-4 font-bold drop-shadow-md">Ingredientes Maestros</h2>
+                        <div className="w-16 md:w-24 h-0.5 bg-desert-accent/50 mx-auto"></div>
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 text-center">
@@ -175,11 +175,11 @@ const Home = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
                 </div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-4">
-                    <motion.div variants={fadeInUp} className="text-center mb-16">
+                <div className="relative z-10 max-w-7xl mx-auto px-6">
+                    <motion.div variants={fadeInUp} className="text-center mb-12 md:mb-16">
                         <Sparkles className="text-desert-accent mx-auto mb-4" size={24} />
-                        <h2 className="text-3xl md:text-5xl font-cinzel text-white mb-4 font-bold drop-shadow-lg">Voces de la Tribu</h2>
-                        <p className="font-montserrat text-parchment/60 italic tracking-widest uppercase text-xs">Lo que dicen nuestras almas afines</p>
+                        <h2 className="text-2xl md:text-5xl font-cinzel text-white mb-4 font-bold drop-shadow-lg">Voces de la Tribu</h2>
+                        <p className="font-montserrat text-parchment/60 italic tracking-widest uppercase text-[10px]">Lo que dicen nuestras almas afines</p>
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">

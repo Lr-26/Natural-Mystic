@@ -111,12 +111,12 @@ const Hero = () => {
                 >
                     <div className="w-20 h-[2px] bg-desert-accent mx-auto mb-8 bg-gradient-to-r from-transparent via-desert-accent to-transparent" />
                     
-                    <h2 className="text-desert-accent font-montserrat tracking-[0.5em] uppercase text-xs mb-6 font-bold opacity-80">
+                    <h2 className="text-desert-accent font-montserrat tracking-[0.3em] md:tracking-[0.5em] uppercase text-[10px] md:text-xs mb-4 md:6 font-bold opacity-80 px-4">
                         Alquimia & Esencia Sagrada
                     </h2>
                     
-                    <h1 className="text-6xl md:text-8xl font-cinzel text-white mb-8 tracking-[0.05em] font-bold leading-tight text-gradient-mystic shadow-2xl">
-                        Natural <br/>Mystic
+                    <h1 className="text-4xl sm:text-6xl md:text-8xl font-cinzel text-white mb-6 md:mb-8 tracking-[0.05em] font-bold leading-tight text-gradient-mystic shadow-2xl px-4">
+                        Natural <br className="sm:hidden" /> Mystic
                     </h1>
                     
                     <p className="font-montserrat text-sm md:text-base text-parchment/60 mb-12 max-w-2xl mx-auto italic tracking-wider">

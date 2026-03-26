@@ -55,12 +55,7 @@ h4 {
   /* color: theme('colors.absolute-black'); - Removed to allow utility override */
 }
 
-p,
-span,
-a,
-button {
-  /* color: theme('colors.absolute-black'); - Removed to allow utility override */
-}
+/* Global overrides */
 
 /* GLOBAL INPUT FIX: Ensure text is always visible */
 input,
@@ -115,22 +110,30 @@ select {
     width: 96% !important;
     max-width: 1400px;
     margin-top: 15px;
-    height: 80px;
+    height: 70px; /* Reducido levemente para móvil */
     display: flex;
     align-items: center;
     border-radius: 40px;
     background: rgba(18, 10, 12, 0.85) !important;
     backdrop-filter: blur(50px) saturate(220%);
     border: 1px solid rgba(212, 140, 157, 0.4);
-    padding: 0 64px;
+    padding: 0 24px; /* Reducido de 64px para móvil */
     left: 50% !important;
     transform: translateX(-50%) !important;
     box-shadow: 0 30px 60px rgba(0,0,0,0.7);
 }
 
+@media (min-width: 768px) {
+    .nav-pill-scrolled {
+        padding: 0 64px;
+        height: 80px;
+    }
+}
+
 .text-gradient-mystic {
     background: linear-gradient(135deg, #FFFFFF 0%, #D48C9D 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

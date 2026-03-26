@@ -173,7 +173,7 @@ const Footer = () => {
                         <p className="text-[10px] text-white/40 font-montserrat uppercase tracking-[0.2em] mb-8 font-bold italic">Crea tu cuenta profesional aquí</p>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1">
                                     <label className="block text-[10px] uppercase tracking-widest text-desert-accent/70 font-bold px-1">Nombre</label>
                                     <input
