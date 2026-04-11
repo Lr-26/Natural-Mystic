@@ -54,6 +54,7 @@ const ProductGrid = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -83,13 +84,19 @@ const ProductGrid = () => {
         fetchProducts();
     }, []);
 
-    const filteredProducts = selectedCategory
-        ? products.filter(p => {
-            const cat = p.category?.toLowerCase() || '';
-            const filter = selectedCategory.toLowerCase();
-            return cat.includes(filter);
-        })
-        : products;
+    const filteredProducts = products.filter(p => {
+        // Enforce category filter first
+        const categoryMatch = !selectedCategory || (p.category?.toLowerCase() || '').includes(selectedCategory.toLowerCase());
+        
+        // Then text search
+        const query = searchQuery.toLowerCase();
+        const searchMatch = !searchQuery || 
+            (p.name?.toLowerCase() || '').includes(query) || 
+            (p.description?.toLowerCase() || '').includes(query) ||
+            (p.category?.toLowerCase() || '').includes(query);
+
+        return categoryMatch && searchMatch;
+    });
 
     if (loading) {
         return (
@@ -103,13 +110,40 @@ const ProductGrid = () => {
     return (
         <section id="productos" className="py-16 md:py-24 bg-transparent relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
+                <div className="text-center mb-8 md:mb-12">
                     <h2 className="text-desert-secondary font-montserrat tracking-[0.2em] uppercase text-xs mb-3 italic font-bold">
                         Arte & Naturaleza
                     </h2>
                     <h3 className="text-3xl md:text-5xl font-cinzel text-desert-primary border-b border-desert-accent inline-block pb-4 tracking-widest font-bold">
-                        {selectedCategory ? selectedCategory : 'Colección Exclusiva'}
+                        {selectedCategory ? (selectedCategory === 'all' ? 'Colección Completa' : selectedCategory) : 'Colección Exclusiva'}
                     </h3>
+                </div>
+
+                {/* Mystic Search Bar */}
+                <div className="max-w-2xl mx-auto mb-16 relative group">
+                    <div className="absolute inset-0 bg-desert-accent/5 blur-xl group-hover:bg-desert-accent/10 transition-all duration-700 rounded-full" />
+                    <div className="relative flex items-center bg-white/5 backdrop-blur-md border border-desert-accent/20 rounded-sm p-1 shadow-inner group-focus-within:border-desert-accent/50 transition-all duration-500">
+                        <div className="pl-4 text-desert-accent opacity-60">
+                            <Sparkles size={20} />
+                        </div>
+                        <input 
+                            type="text"
+                            placeholder="Buscar en la alquimia... (ej: Lavanda, Vela, Ritual)"
+                            className="bg-transparent border-none focus:ring-0 text-parchment placeholder:text-parchment/30 font-montserrat w-full py-4 px-4 text-sm tracking-widest"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        {searchQuery && (
+                            <button 
+                                onClick={() => setSearchQuery('')}
+                                className="pr-4 text-desert-accent/40 hover:text-desert-accent transition-colors"
+                            >
+                                ✕
+                            </button>
+                        )}
+                    </div>
+                    {/* Decorative running light border snippet */}
+                    <div className="absolute -bottom-[1px] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-desert-accent/40 to-transparent scale-x-0 group-focus-within:scale-x-100 transition-transform duration-1000" />
                 </div>
 
                 <AnimatePresence mode="wait">
